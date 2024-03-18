@@ -23,8 +23,6 @@ onMounted(async () => {
 //----------------------------
 
 const getOrderItem = async () => {
-    const id = route.params;
-    console.log('routhiuhuunje', id);
     let response = await axios.get("/api/get_OrderItem");
     orderItem.value = response.data.orderItem;
     subTotal();
@@ -93,6 +91,7 @@ const addOrders = async () => {
       type: "error",
     });
   })
+  order.value = [];
 }
 </script>
 

@@ -184,16 +184,7 @@ const addOrderItem = async () => {
                     </div>
                 
             </div>
-
-            <!-- <div class="heading">
-            <div style="flex-basis: 33%;">
-                <h3 class="mb-4"> Description </h3>
-            </div>
-            <div style="flex-basis: 33%;">
-                <h3 class="mb-4"> Reviews</h3>
-            </div>
-        </div> -->
-            <!-- <h3 class="mb-4"> Description </h3> -->
+            
             <div class="details">
                 <h3 class="mb-4">Description</h3>
                 <p>
