@@ -62,8 +62,9 @@ const getOrderItems = async () => {
                 <td>{{ item.total_amount  }}</td>
                 <td>{{ item.order_status  }}</td>
                 <td>{{ item.payment_status  }}</td>
-                <td @click="deleteUser(item.id)" style="color: red; cursor: pointer;" >
-                    <span>Delete</span>
+                <td >
+                    <button @click="deleteUser(item.id)" style="color: red; ">Delete</button>
+                    <button style="color: #22bdbd; margin-left: 10px; ">View</button>
                 </td>
               </tr>
             </tbody>
@@ -72,10 +73,17 @@ const getOrderItems = async () => {
   </div>
 </template>
 
-<style scoped>
+<style  lang="scss" scoped>
+td{
+  button{
+    cursor: pointer;
+    border: 1px solid #ddd;
+    background: transparent;
+  }
+}
 .orderItem {
   width: 100%;
-  padding-left: 3rem;
+  padding-left: 1.5rem;
   padding-top: 50px;
 }
 #customers {
