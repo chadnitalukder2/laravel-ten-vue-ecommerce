@@ -96,6 +96,12 @@ const routes = [
         component: () => import("../Pages/Admin//user/edit_user.vue"),
         meta: { requiresAuth: true },
       },
+      {
+        path: "/all-order",
+        name: "all-order",
+        component: () => import("../Pages/Admin/order_item/order_item.vue"),
+        meta: { requiresAuth: true },
+      },
     ],
   }
 ];

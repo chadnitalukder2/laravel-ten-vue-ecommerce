@@ -1,4 +1,7 @@
 <script setup>
+import { useNotification } from "@kyvg/vue3-notification";
+const { notify }  = useNotification();
+
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
@@ -19,6 +22,10 @@ const getProduct = async () => {
 
 const deleteProduct = (id) => {
     axios.get(`/api/delete_product/${id}`).then( () => {
+      notify({
+        title: "Product Item Deleted",
+        type: "success",
+      });
       getProduct();
     })
 }

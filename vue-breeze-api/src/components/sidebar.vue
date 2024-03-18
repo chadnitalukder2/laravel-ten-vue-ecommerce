@@ -1,5 +1,6 @@
 <template>
     <div class="side-bar-wrapper">
+        <router-link :to="{ name: 'all-order' }">All Order Item</router-link>
         <router-link class="active" :to="{ name: 'all-category' }">All Category</router-link>
         <router-link :to="{ name: 'all-product' }">All Product</router-link>
         <router-link :to="{ name: 'all-brand' }">All Brand</router-link>

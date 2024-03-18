@@ -8,27 +8,27 @@ import axios from "axios";
 import { useRouter } from "vue-router";
 const router = useRouter();
 //---------------------------------------------------
-const user = ref([]);
+const orderItems = ref([]);
 //---------------------------------------------------
 onMounted(async () => {
-  getUser();
+  getOrderItems();
 });
 //---------------------------------------------------
-const getUser = async () => {
-  let response = await axios.get("/api/get_user");
-  user.value = response.data.user;
-  // console.log("response", response.data.user);
+const getOrderItems = async () => {
+  let response = await axios.get("/api/get_all_Order");
+  orderItems.value = response.data.orderItems;
+  // console.log("response", response.data);
 };
 //---------------------------------------------------
-const deleteUser = (id) => {
-    axios.get(`/api/delete_user/${id}`).then( () => {
-      notify({
-        title: "User Deleted",
-        type: "success",
-      });
-      getUser();
-    })
-}
+// const deleteUser = (id) => {
+//     axios.get(`/api/delete_user/${id}`).then( () => {
+//       notify({
+//         title: "User Deleted",
+//         type: "success",
+//       });
+//       getUser();
+//     })
+// }
 
 //---------------------------------------------------
 
@@ -37,19 +37,31 @@ const deleteUser = (id) => {
 
 <template>
   <div>
-        <div class="user">
+        <div class="orderItem">
           <table id="customers">
             <tr>
               <th># ID</th>
-              <th>User Name</th>
-              <th>User Email</th>
+              <th>User Id</th>
+              <th> Name</th>
+              <th> Email</th>
+              <th>Address</th>
+              <th>Phone</th>
+              <th>Total Amount </th>
+              <th>Order Status</th>
+              <th>Payment Status</th>
               <th>Action</th>
             </tr> 
-            <tbody v-for="item in user" :key="item.id">
+            <tbody v-for="item in orderItems" :key="item.id">
               <tr >
-                <td style="color: blue;"><router-link :to="{ name: 'edit-user', params: { id: item.id }}" ># {{ item.id }} </router-link></td>
-                <td>{{ item.name }}</td>
+                <td style="color: blue;"># {{ item.id }} </td>
+                <td>{{ item.user_id }}</td>
+                <td>{{ item.name  }}</td>
                 <td>{{ item.email  }}</td>
+                <td>{{ item.address  }}</td>
+                <td>{{ item.phone  }}</td>
+                <td>{{ item.total_amount  }}</td>
+                <td>{{ item.order_status  }}</td>
+                <td>{{ item.payment_status  }}</td>
                 <td @click="deleteUser(item.id)" style="color: red; cursor: pointer;" >
                     <span>Delete</span>
                 </td>
@@ -61,9 +73,9 @@ const deleteUser = (id) => {
 </template>
 
 <style scoped>
-.user {
-  width: 109%;
-  padding-left: 12rem;
+.orderItem {
+  width: 100%;
+  padding-left: 3rem;
   padding-top: 50px;
 }
 #customers {
@@ -85,8 +97,7 @@ const deleteUser = (id) => {
 
 
 #customers th {
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 15px;
   text-align: center;
   background-color: #D1EAE4;
   color: #444;

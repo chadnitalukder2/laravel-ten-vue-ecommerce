@@ -69,9 +69,12 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function get_all_Order()
     {
-        //
+        $orderItems = Order::orderBy('id', 'desc')->get();
+        return response()->json([
+            'orderItems' => $orderItems
+        ], 200);
     }
 
     /**

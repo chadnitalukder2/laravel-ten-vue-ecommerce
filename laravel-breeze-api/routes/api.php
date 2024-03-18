@@ -54,3 +54,4 @@ Route::get('/get_OrderItem', [OrderItemsController::class, 'get_OrderItem']);
 Route::get('/delete_OrderItem/{id}', [OrderItemsController::class, 'delete_OrderItem']);
 
 Route::post('/add_orders', [OrderController::class, 'add_orders']);
+Route::get('/get_all_Order', [OrderController::class, 'get_all_Order']);

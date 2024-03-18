@@ -1,4 +1,8 @@
 <script setup>
+import { useNotification } from "@kyvg/vue3-notification";
+const { notify }  = useNotification();
+
+
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
@@ -20,6 +24,10 @@ const getCategory = async () => {
 //---------------------------------------------------
 const deleteCategory = (id) => {
   axios.get(`/api/delete_category/${id}`).then(() => {
+    notify({
+        title: "Category Item Deleted",
+        type: "success",
+      });
     getCategory();
   });
 };
