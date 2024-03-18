@@ -21,17 +21,6 @@ class CategoryController extends Controller
 
     public function delete_category($id){
         $category = Category::findOrFail($id);
-        if($category) {
-            $products = Product::where('category_id', $id)->get();
-            foreach($products as $product){
-                // You can new category id or set null here
-                // $product->category_id = 1;
-                // $product->save();
-
-                // you can delete all product related this category
-                $product->delete();
-            }
-        }
         $category->delete();
     }
 

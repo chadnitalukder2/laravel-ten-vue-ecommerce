@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('product_name');
             $table->integer('product_price');
             $table->integer('product_quantity');
-            $table->foreignId('brand_id')->references('id')->on('brands');
-            $table->foreignId('category_id')->references('id')->on('categories');
+            $table->foreignId('brand_id')->constrained()->onDelete('cascade');
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->string('product_img');
             $table->string('product_sizes')->nullable();
             $table->string('product_colors')->nullable();
