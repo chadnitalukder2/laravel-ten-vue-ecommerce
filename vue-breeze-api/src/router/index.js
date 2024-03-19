@@ -102,6 +102,12 @@ const routes = [
         component: () => import("../Pages/Admin/order_item/order_item.vue"),
         meta: { requiresAuth: true },
       },
+      {
+        path: "/view_order_details/:id",
+        name: "view_order_details",
+        component: () => import("../Pages/Admin/order_item/view_order_details.vue"),
+        meta: { requiresAuth: true },
+      },
     ],
   }
 ];

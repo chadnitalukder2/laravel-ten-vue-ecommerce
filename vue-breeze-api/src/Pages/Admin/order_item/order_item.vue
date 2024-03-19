@@ -20,15 +20,15 @@ const getOrderItems = async () => {
   // console.log("response", response.data);
 };
 //---------------------------------------------------
-// const deleteUser = (id) => {
-//     axios.get(`/api/delete_user/${id}`).then( () => {
-//       notify({
-//         title: "User Deleted",
-//         type: "success",
-//       });
-//       getUser();
-//     })
-// }
+const deleteOrder = (id) => {
+    axios.get(`/api/delete_order_item/${id}`).then( () => {
+      notify({
+        title: "Order Item Deleted",
+        type: "success",
+      });
+      getOrderItems();
+    })
+}
 
 //---------------------------------------------------
 
@@ -63,8 +63,8 @@ const getOrderItems = async () => {
                 <td>{{ item.order_status  }}</td>
                 <td>{{ item.payment_status  }}</td>
                 <td >
-                    <button @click="deleteUser(item.id)" style="color: red; ">Delete</button>
-                    <button style="color: #22bdbd; margin-left: 10px; ">View</button>
+                    <button @click="deleteOrder(item.id)" style="color: red; ">Delete</button>
+                    <button style="color: #22bdbd; margin-left: 10px; "><router-link style="color: #22bdbd;"  :to="{ name: 'view_order_details', params: { id: item.id }}" >View</router-link></button>
                 </td>
               </tr>
             </tbody>
@@ -79,6 +79,9 @@ td{
     cursor: pointer;
     border: 1px solid #ddd;
     background: transparent;
+    a{
+      text-decoration: none;
+    }
   }
 }
 .orderItem {

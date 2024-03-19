@@ -128,8 +128,9 @@ class OrderController extends Controller
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Order $order)
+    public function delete_order_item( $id)
     {
-        //
+        $orderItem = Order::findOrFail($id);
+        $orderItem->delete();
     }
 }
