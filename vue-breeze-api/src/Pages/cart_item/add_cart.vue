@@ -26,13 +26,13 @@ const getOrderItem = async () => {
     let response = await axios.get("/api/get_OrderItem");
     orderItem.value = response.data.orderItem;
     subTotal();
-    total();
+    // total();
 };
 //------------------------------------------
 const updateLineTotal = (item) => {
   item.line_total = item.quantity * item.product.product_price;
   subTotal();
-  total();
+  // total();
 }
 //------------------------------------------
 const subTotal = () =>{
@@ -42,14 +42,20 @@ const subTotal = () =>{
      result += orderItem.value[i].line_total;
     }
   }
-  console.log({order}, result, orderItem.value)
+  // console.log({order}, result)
   order.value.sub_total = result;
-}
-//------------------------------------------
-const total = () => {
+  // console.log({order}, order.value.sub_total)
   let totalValue = order.value.sub_total + 50 - 5;
+ 
   order.value.total = totalValue;
 }
+//------------------------------------------
+// const total = () => {
+//   console.log('total', order.value.sub_total);
+//   let totalValue = order.value.sub_total + 50 - 5;
+ 
+//   order.value.total = totalValue;
+// }
 //------------------------------------------
 const deleteOrderItem = (id) => {
     axios.get(`/api/delete_OrderItem/${id}`).then( () => {
