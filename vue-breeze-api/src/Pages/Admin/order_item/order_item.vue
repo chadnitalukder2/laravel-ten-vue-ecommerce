@@ -1,6 +1,7 @@
 <script setup>
 import { useNotification } from "@kyvg/vue3-notification";
 const { notify }  = useNotification();
+import Modal from "../../../components/global/Modal.vue";
 
 
 import { ref, onMounted } from "vue";
@@ -9,6 +10,7 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 //---------------------------------------------------
 const orderItems = ref([]);
+const modalVisible = ref([]);
 //---------------------------------------------------
 onMounted(async () => {
   getOrderItems();
@@ -31,7 +33,13 @@ const deleteOrder = (id) => {
 }
 
 //---------------------------------------------------
+const openModal = () => {
+  modalVisible.value = true;
+};
 
+const closeModal = () => {
+  modalVisible.value = false;
+};
 //---------------------------------------------------
 </script>
 
@@ -63,10 +71,22 @@ const deleteOrder = (id) => {
                 <td>{{ item.order_status  }}</td>
                 <td>{{ item.payment_status  }}</td>
                 <td >
+
                     <button @click="deleteOrder(item.id)" style="color: red; ">Delete</button>
                     <button style="color: #22bdbd; margin-left: 10px; "><router-link style="color: #22bdbd;"  :to="{ name: 'view_order_details', params: { id: item.id }}" >View</router-link></button>
-                </td>
+                    <button @click="openModal()" style="color: blue; ">Edit</button>
+                  </td>
+
+                  <Modal :show="modalVisible" @close="closeModal">
+                      <h1>Modal</h1>
+                      {{ item.id }}
+                      {{ item.order_status }}
+                      <p>This is a modal</p>
+                      
+                  </Modal>
+
               </tr>
+              
             </tbody>
           </table>
         </div>
