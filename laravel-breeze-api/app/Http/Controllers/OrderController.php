@@ -83,9 +83,14 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function getOrderItemByOrderId($id)
     {
-        //
+        $orderItem = OrderItems::orderBy('id', 'desc')->where('order_id', $id)->with('product')->get();
+
+        return response()->json([
+            'orderItem' => $orderItem
+        ], 200);
+        // return $this->belongsTo(Product::class);
     }
 
     /**

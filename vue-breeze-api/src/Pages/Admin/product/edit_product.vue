@@ -31,7 +31,7 @@ const selectedColors = ref([]);
 const getProduct = async () => {
     const id = route.params.id;
     // console.log('routhiuhuunje', id);
- let response = await axios.get(`/api/edit_product/${id}`);
+    let response = await axios.get(`/api/edit_product/${id}`);
     form.value = response.data.product
     // console.log('responseydyhfb', response.data.product);
 }
