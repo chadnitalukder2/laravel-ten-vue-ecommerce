@@ -28,6 +28,15 @@
   };
   </script>
   <style scoped>
+  button{
+    padding: 10px 20px;
+    font-size: 15px;
+    border-radius: 6px;
+    border: 1px solid #f1f1f1;
+    background: rgb(231, 77, 77);
+    margin-left: 72%;
+    margin-top:20px ;
+  }
   .modal {
     position: fixed;
     top: 0;

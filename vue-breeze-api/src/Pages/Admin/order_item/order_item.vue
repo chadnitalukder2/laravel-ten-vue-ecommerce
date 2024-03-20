@@ -90,10 +90,33 @@ const closeModal = () => {
             </td>
 
             <Modal :show="modalVisibleId === item.id" @close="closeModal">
-              <h1>Modal</h1>
-              {{ item.id }}
-              {{ item.order_status }}
-              <p>This is a modal</p>
+              <h2 style="text-align: center; font-size: 22px; color: #444;">Upadte </h2>
+              <form >
+             
+                <div class="container">
+                  <div>
+                    <label for="uname"><b>Order Status</b></label>
+                    <select v-model="item.order_status ">
+                      <option disabled>orders tatus </option>
+                      <option >Pending</option>
+                      <option >Processing</option>
+                      <option >Received</option>
+                      <option >Delevary</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label for="uname"><b>Payment Status</b></label>
+                    <select v-model="item.payment_status">
+                      <option disabled>payment status </option>
+                      <option >Paid</option>
+                      <option >Refund</option>
+                    </select>
+                  </div>
+                  <br />
+                  <button type="submit">Add Product</button>
+                </div>
+              </form>
             </Modal>
           </tr>
         </tbody>
@@ -103,6 +126,39 @@ const closeModal = () => {
 </template>
 
 <style lang="scss" scoped>
+
+h1 {
+  text-align: center;
+  font-size: 25px;
+  color: #444;
+}
+form {
+  border: 1px solid #f1f1f1;
+  margin: 0 auto;
+  width: 60%;
+  margin-top: 15px;
+  border-radius: 8px;
+  padding: 20px;
+  button{
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #f1f1f1;
+    background: #189877;
+    color: white;
+  }
+}
+
+select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 12px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+
 h1 {
   background: rgb(237 236 236 / 68%);
   border-radius: 6px;
