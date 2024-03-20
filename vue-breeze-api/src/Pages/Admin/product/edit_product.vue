@@ -64,15 +64,7 @@ const updateProduct = async () => {
   formData.append("product_sizes", JSON.stringify(selectedSizes.value));
   formData.append("short_description", form.value.short_description);
   formData.append("product_details", form.value.product_details);
-  // formData.append('product_img', image.value);
-  // let formData = {
-  //     'product_name': form.value.product_name,
-  //     'product_price': form.value.product_price,
-  //     'product_quantity': form.value.product_quantity,
-  //     'category_id': form.value.category_id,
-  //     'brand_id': form.value.brand_id,
-  //     'product_details': form.value.product_details,
-  // }
+ 
 
   console.log({ formData });
   let response = await axios

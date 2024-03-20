@@ -3,13 +3,16 @@ import { useNotification } from "@kyvg/vue3-notification";
 const { notify } = useNotification();
 import Modal from "../../../components/global/Modal.vue";
 
-import { ref, onMounted } from "vue";
-import axios from "axios";
 import { useRouter } from "vue-router";
 const router = useRouter();
+import { ref, onMounted } from "vue";
+import axios from "axios";
+import { useRoute } from "vue-router";
+const route = useRoute();
 //---------------------------------------------------
 const orderItems = ref([]);
 const modalVisibleId = ref(null);
+const orderStatus = ref([]);
 //---------------------------------------------------
 onMounted(async () => {
   getOrderItems();
@@ -40,6 +43,20 @@ const closeModal = () => {
   modalVisibleId.value = null;
 };
 //---------------------------------------------------
+const updateStatus = async (id) => {
+  
+  console.log('id', id);
+  let data={
+    'order_status': orderStatus.value.order_status,
+    'payment_status': orderStatus.value.payment_status,
+  }
+  await axios.post(`/api/update_order_status/${id}`, data).then(() => {
+      
+      closeModal();
+      router.push("/all-order");
+    });
+}
+//---------------------------------
 </script>
 
 <template>
@@ -90,15 +107,16 @@ const closeModal = () => {
             </td>
 
             <Modal :show="modalVisibleId === item.id" @close="closeModal">
-              <h2 style="text-align: center; font-size: 22px; color: #444;">Upadte </h2>
-              <form >
+              <h2 style="text-align: center; font-size: 22px; color: #444;">Upadte  Status</h2>
+              <form @submit.prevent="updateStatus(item.id)">
              
                 <div class="container">
                   <div>
-                    <label for="uname"><b>Order Status</b></label>
-                    <select v-model="item.order_status ">
+                    {{ item.id }}
+                    <label ><b>Order Status</b></label>
+                    <select v-model="orderStatus.order_status ">
                       <option disabled>orders tatus </option>
-                      <option >Pending</option>
+                      <option >Panding</option> 
                       <option >Processing</option>
                       <option >Received</option>
                       <option >Delevary</option>
@@ -106,9 +124,10 @@ const closeModal = () => {
                   </div>
 
                   <div>
-                    <label for="uname"><b>Payment Status</b></label>
-                    <select v-model="item.payment_status">
+                    <label ><b>Payment Status</b></label>
+                    <select v-model="orderStatus.payment_status">
                       <option disabled>payment status </option>
+                      <option >Unpaid</option>
                       <option >Paid</option>
                       <option >Refund</option>
                     </select>
@@ -128,7 +147,7 @@ const closeModal = () => {
 <style lang="scss" scoped>
 
 h1 {
-  text-align: center;
+  text-align: left;
   font-size: 25px;
   color: #444;
 }

@@ -99,9 +99,18 @@ class OrderController extends Controller
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function show(Order $order)
+    public function update_order_status(Request $request, $id)
     {
-        //
+        $updateStatus = Order::where('id', $id)->first();
+       
+        $updateStatus->update([
+            'order_status' => $request->order_status,
+            'payment_status' => $request->payment_status,
+           
+         ]);
+         return response()->json([
+            'updateStatus' => $updateStatus
+        ], 200);
     }
 
     /**
