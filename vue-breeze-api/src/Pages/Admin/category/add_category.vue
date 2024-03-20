@@ -9,127 +9,92 @@ const categoryInput = ref([]);
 const image = [];
 
 const handleFileChange = async (event) => {
-    image.value = event.target.files[0];
+  image.value = event.target.files[0];
 };
 
 //---------------------------------------------------
 const addCategory = async () => {
-    showError.value = false;
-    if (!categoryInput.value.category_name) {
-        showError.value = true;
-        // console.log("hi");
-        return;
+  showError.value = false;
+  if (!categoryInput.value.category_name) {
+    showError.value = true;
+    // console.log("hi");
+    return;
+  }
+
+  // let data = {
+  //     category_name: categoryInput.value.category_name,
+  // };
+  const formData = new FormData();
+  formData.append("category_name", categoryInput.value.category_name);
+  formData.append("category_img", image.value);
+
+  await axios.post("/api/add_category", formData).then((response) => {
+    if (response.status == 200) {
+      router.push("/all-category");
+      categoryInput.value = [];
+      image.value = [];
     }
-
-    // let data = {
-    //     category_name: categoryInput.value.category_name,
-    // };
-    const formData = new FormData();
-    formData.append("category_name", categoryInput.value.category_name);
-    formData.append("category_img", image.value);
-
-    await axios.post("/api/add_category", formData).then((response) => {
-        if (response.status == 200) {
-            router.push('/all-category');
-            categoryInput.value = [];
-            image.value = [];
-        }
-    });
+  });
 };
-
 </script>
 
-
-
 <template>
-  <div>
-    <!-- <form @submit.prevent="addCategory" enctype="multipart/form-data">
-      <div class="mb-5" style="padding: 0px 20px">
-        <p style="text-align: left; padding-bottom: 10px">Category Name:</p>
+  <div style="width: 100%">
+    <form @submit.prevent="addCategory" enctype="multipart/form-data">
+      <h1>Add Category Item</h1>
+      <div class="container">
+        <label for="uname"><b>Category Name</b></label>
         <input
           v-model="categoryInput.category_name"
           type="text"
-          placeholder="category name"
-          class="bordder-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-3 px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"
+          placeholder="category name "
+          name="uname"
+          required
         />
-        <p v-if="showError" style="color: red; text-align: left">
-          Category name is required
-        </p>
-      </div>
-      <div class="mb-5" style="padding: 0px 20px">
-        <p style="text-align: left; padding-bottom: 10px">Category Image:</p>
+
+        <label for="psw"><b>Category Image</b></label>
         <input
           @change="handleFileChange"
           type="file"
-          placeholder="Product Image"
-          class="border-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-3 px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"
+          placeholder="category Image"
+          name="psw"
+          required
         />
+
+        <button type="submit">Add Category</button>
       </div>
-      <div class="mb-5" style="text-align: left; padding: 20px">
-        <button
-          type="submit"
-          class="px-4 py-3 bg-indigo-500 hover:bg-indigo-700 rounded-md text-white"
-        >
-          Add Category
-        </button>
-      </div>
-    </form> -->
- 
-    <form @submit.prevent="addCategory" enctype="multipart/form-data">
-
-        <div class="container">
-          <label for="uname"><b>Category Name</b></label>
-          <input  v-model="categoryInput.category_name"  type="text" placeholder="category name " name="uname" required>
-
-          <label for="psw"><b>Category Image</b></label>
-          <input  @change="handleFileChange" type="file" placeholder="category Image" name="psw" required>
-
-          <button type="submit">Add Category</button>
-
-        </div>
-
-    </form> <form @submit.prevent="addCategory" enctype="multipart/form-data">
-
-        <div class="container">
-          <label for="uname"><b>Category Name</b></label>
-          <input  v-model="categoryInput.category_name"  type="text" placeholder="category name " name="uname" required>
-
-          <label for="psw"><b>Category Image</b></label>
-          <input  @change="handleFileChange" type="file" placeholder="category Image" name="psw" required>
-
-          <button type="submit">Add Category</button>
-
-        </div>
-
     </form>
- 
- </div>
+  </div>
 </template>
 
-
 <style lang="scss" scoped>
+h1 {
+  text-align: center;
+  font-size: 25px;
+  color: #444;
+}
 form {
   border: 1px solid #f1f1f1;
-  margin-left: 28%;
-  width: 80%;
+  margin: 0 auto;
+  width: 60%;
   margin-top: 100px;
   border-radius: 8px;
   padding: 20px;
 }
 
 .form-footer {
-    background-color: rgb(241, 241, 241);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 8px;
-    padding: 4px 16px;
-    margin: 0px 12px;
+  background-color: rgb(241, 241, 241);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  padding: 4px 16px;
+  margin: 0px 12px;
 }
 
-input[type=text],
-input[type=password],
-input[type=file] {
+input[type="text"],
+input[type="password"],
+input[type="file"] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -140,7 +105,7 @@ input[type=file] {
 }
 
 button {
-  background-color: #04AA6D;
+  background-color: #04aa6d;
   color: white;
   padding: 14px 20px;
   margin: 8px 0;

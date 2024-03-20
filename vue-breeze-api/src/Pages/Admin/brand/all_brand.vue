@@ -1,7 +1,6 @@
 <script setup>
 import { useNotification } from "@kyvg/vue3-notification";
-const { notify }  = useNotification();
-
+const { notify } = useNotification();
 
 import { ref, onMounted } from "vue";
 import axios from "axios";
@@ -21,14 +20,14 @@ const getBrand = async () => {
 };
 //---------------------------------------------------
 const deleteBrand = (id) => {
-    axios.get(`/api/delete_brand/${id}`).then( () => {
-      notify({
-        title: "Brand Item Deleted",
-        type: "success",
-      });
-      getBrand();
-    })
-}
+  axios.get(`/api/delete_brand/${id}`).then(() => {
+    notify({
+      title: "Brand Item Deleted",
+      type: "success",
+    });
+    getBrand();
+  });
+};
 //---------------------------------------------------
 const getToken = async () => {
   await axios.get("sanctum/csrf-cookie");
@@ -38,63 +37,76 @@ const getToken = async () => {
 </script>
 
 <template>
-  <div>
-      <div class="brand">
-
-        <div class="btn">
-            <button >
-                <router-link :to="{ name: 'add-brand' }">
-                    Add brand
-                </router-link>
-            </button>
-        </div>
-        <table id="customers">
-          <tr>
-            <th># ID</th>
-            <th>Brand Name</th>
-            <th>Brand Image</th>
-            <th>Action</th>
-          </tr> 
-          <tbody v-for="item in brand" :key="item.id">
-            <tr >
-              <td># {{ item.id }}</td>
-              <td>{{ item.brand_name }}</td>
-              <td>
-                <img :src="item.brand_img" style="width: 70px; height: 50px;">
-              </td>
-              <td @click="deleteBrand(item.id)" style="color: red; cursor: pointer;" >
-                  <span>Delete</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
+  <div class="container">
+    <div class="table-box">
+      <div class="btn">
+        <button>
+          <router-link :to="{ name: 'add-brand' }"> Add brand </router-link>
+        </button>
       </div>
+      <h1>All Brand</h1>
+      <table id="customers">
+        <tr>
+          <th># ID</th>
+          <th>Brand Name</th>
+          <th>Brand Image</th>
+          <th>Action</th>
+        </tr>
+        <tbody v-for="item in brand" :key="item.id">
+          <tr>
+            <td># {{ item.id }}</td>
+            <td>{{ item.brand_name }}</td>
+            <td>
+              <img :src="item.brand_img" style="width: 130px; height: 80px" />
+            </td>
+            <td
+              @click="deleteBrand(item.id)"
+              style="color: red; cursor: pointer"
+            >
+              <span>Delete</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.brand {
-  width: 109%;
-  padding-left: 15rem;
-  padding-top: 50px;
+h1 {
+  background: rgb(237 236 236 / 68%);
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-size: 24px;
+  color: #444;
+}
+table {
+  border-radius: 6px;
+  overflow: hidden;
+}
 
-  .btn{
+.container {
+  width: 100%;
+}
+.table-box {
+  padding: 50px;
+  border-radius: 8px;
+
+  .btn {
     text-align: right;
-    padding-bottom: 25px;
-    button{
-        padding: 10px 20px;
-         border: 1px solid #ddd;
-         background: #189877;
-         border-radius: 6px;
-         cursor: pointer;
-         a{
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: 500;
-            color: #fff;
-         }
-    
+    padding-bottom: 10px;
+    button {
+      padding: 10px 20px;
+      border: 1px solid #ddd;
+      background: #189877;
+      border-radius: 6px;
+      cursor: pointer;
+      a {
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: 500;
+        color: #fff;
+      }
     }
   }
 }
@@ -107,21 +119,20 @@ const getToken = async () => {
 
 #customers td,
 #customers th {
-  border: 1px solid #ddd;
-  padding: 6px 8px;
-  text-align: center;
+  border: 1px solid #f3ededad;
+  padding: 15px 15px;
+  text-align: left;
 }
 
 #customers tr:nth-child(even) {
   background-color: #f2f2f2;
 }
 
-
 #customers th {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  text-align: center;
-  background-color: #D1EAE4;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: left;
+  background-color: rgb(237 236 236 / 68%);
   color: #444;
 }
 </style>

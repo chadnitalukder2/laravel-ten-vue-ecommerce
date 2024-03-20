@@ -1,7 +1,6 @@
 <script setup>
 import { useNotification } from "@kyvg/vue3-notification";
-const { notify }  = useNotification();
-
+const { notify } = useNotification();
 
 import { ref, onMounted } from "vue";
 import axios from "axios";
@@ -25,9 +24,9 @@ const getCategory = async () => {
 const deleteCategory = (id) => {
   axios.get(`/api/delete_category/${id}`).then(() => {
     notify({
-        title: "Category Item Deleted",
-        type: "success",
-      });
+      title: "Category Item Deleted",
+      type: "success",
+    });
     getCategory();
   });
 };
@@ -40,15 +39,16 @@ const getToken = async () => {
 </script>
 
 <template>
-  <div>
-    <div class="category">
+  <div class="container">
+    <div class="table-box">
       <div class="btn">
-        <button  >
+        <button>
           <router-link :to="{ name: 'add-category' }">
             Add Category
           </router-link>
         </button>
       </div>
+      <h1>All Category</h1>
       <table id="customers">
         <tr>
           <th># ID</th>
@@ -60,7 +60,10 @@ const getToken = async () => {
           <tr>
             <td># {{ item.id }}</td>
             <td>
-              <img :src="item.category_img" style="width: 70px; height: 60px" />
+              <img
+                :src="item.category_img"
+                style="width: 130px; height: 80px"
+              />
             </td>
             <td>{{ item.category_name }}</td>
             <td
@@ -77,27 +80,40 @@ const getToken = async () => {
 </template>
 
 <style lang="scss" scoped>
-.category {
-  width: 109%;
-  padding-left: 14rem;
-  padding-top: 50px;
+h1 {
+  background: rgb(237 236 236 / 68%);
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-size: 24px;
+  color: #444;
+}
+table {
+  border-radius: 6px;
+  overflow: hidden;
+}
 
-  .btn{
+.container {
+  width: 100%;
+}
+.table-box {
+  padding: 50px;
+  border-radius: 8px;
+
+  .btn {
     text-align: right;
-    padding-bottom: 25px;
-    button{
-        padding: 10px 20px;
-         border: 1px solid #ddd;
-         background: #189877;
-         border-radius: 6px;
-         cursor: pointer;
-         a{
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: 500;
-            color: #fff;
-         }
-    
+    padding-bottom: 10px;
+    button {
+      padding: 10px 20px;
+      border: 1px solid #ddd;
+      background: #189877;
+      border-radius: 6px;
+      cursor: pointer;
+      a {
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: 500;
+        color: #fff;
+      }
     }
   }
 }
@@ -110,9 +126,9 @@ const getToken = async () => {
 
 #customers td,
 #customers th {
-  border: 1px solid #ddd;
-  padding: 6px 8px;
-  text-align: center;
+  border: 1px solid #f3ededad;
+  padding: 15px 15px;
+  text-align: left;
 }
 
 #customers tr:nth-child(even) {
@@ -120,10 +136,10 @@ const getToken = async () => {
 }
 
 #customers th {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  text-align: center;
-  background-color: #d1eae4;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: left;
+  background-color: rgb(237 236 236 / 68%);
   color: #444;
 }
 </style>

@@ -3,14 +3,14 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 const router = useRouter();
-import { useRoute } from 'vue-router'
-const route = useRoute()
+import { useRoute } from "vue-router";
+const route = useRoute();
 //---------------------------------------------------
 const category = ref({
-    category_name: ''
+  category_name: "",
 });
 const brand = ref({
-    brand_name: ''
+  brand_name: "",
 });
 const form = ref([]);
 const image = ref(null);
@@ -21,20 +21,20 @@ onMounted(async () => {
   getProduct();
 });
 //------------------------------
-const product_colors = ['Red', 'Blue', 'Green', 'Yellow', 'Black', 'White'];
-const product_sizes = ['Small', 'Medium', 'Large', 'XL'];
+const product_colors = ["Red", "Blue", "Green", "Yellow", "Black", "White"];
+const product_sizes = ["Small", "Medium", "Large", "XL"];
 
 const selectedSizes = ref([]);
 const selectedColors = ref([]);
 
 //---------------------------------------------------
 const getProduct = async () => {
-    const id = route.params.id;
-    // console.log('routhiuhuunje', id);
-    let response = await axios.get(`/api/edit_product/${id}`);
-    form.value = response.data.product
-    // console.log('responseydyhfb', response.data.product);
-}
+  const id = route.params.id;
+  // console.log('routhiuhuunje', id);
+  let response = await axios.get(`/api/edit_product/${id}`);
+  form.value = response.data.product;
+  // console.log('responseydyhfb', response.data.product);
+};
 //---------------------------------------------------
 const getCategory = async () => {
   let response = await axios.get("/api/get_category");
@@ -49,111 +49,152 @@ const getBrand = async () => {
 };
 //---------------------------------------------------
 const handleFileChange = async (event) => {
-    image.value = event.target.files[0];
-}
+  image.value = event.target.files[0];
+};
 //---------------------------------------------------
 const updateProduct = async () => {
-    let id = route.params.id;
-    const formData = new FormData();
-    formData.append('product_name', form.value.product_name);
-    formData.append('product_price', form.value.product_price);
-    formData.append('product_quantity', form.value.product_quantity);
-    formData.append('category_id', form.value.category_id);
-    formData.append('brand_id', form.value.brand_id);
-    formData.append('product_colors', JSON.stringify(selectedColors.value));
-    formData.append('product_sizes', JSON.stringify(selectedSizes.value));
-    formData.append('short_description', form.value.short_description);
-    formData.append('product_details', form.value.product_details);
-    // formData.append('product_img', image.value);
-    // let formData = {
-    //     'product_name': form.value.product_name,
-    //     'product_price': form.value.product_price,
-    //     'product_quantity': form.value.product_quantity,
-    //     'category_id': form.value.category_id,
-    //     'brand_id': form.value.brand_id,
-    //     'product_details': form.value.product_details,
-    // }
+  let id = route.params.id;
+  const formData = new FormData();
+  formData.append("product_name", form.value.product_name);
+  formData.append("product_price", form.value.product_price);
+  formData.append("product_quantity", form.value.product_quantity);
+  formData.append("category_id", form.value.category_id);
+  formData.append("brand_id", form.value.brand_id);
+  formData.append("product_colors", JSON.stringify(selectedColors.value));
+  formData.append("product_sizes", JSON.stringify(selectedSizes.value));
+  formData.append("short_description", form.value.short_description);
+  formData.append("product_details", form.value.product_details);
+  // formData.append('product_img', image.value);
+  // let formData = {
+  //     'product_name': form.value.product_name,
+  //     'product_price': form.value.product_price,
+  //     'product_quantity': form.value.product_quantity,
+  //     'category_id': form.value.category_id,
+  //     'brand_id': form.value.brand_id,
+  //     'product_details': form.value.product_details,
+  // }
 
-    console.log({formData});
-        let response = await axios.post(`/api/update_product/${id}`, formData).then( () => {
-           router.push('/all-product');
-        });
-
-}
+  console.log({ formData });
+  let response = await axios
+    .post(`/api/update_product/${id}`, formData)
+    .then(() => {
+      router.push("/all-product");
+    });
+};
 </script>
 
 <template>
-
-<div>
+  <div>
     <form @submit.prevent="updateProduct" enctype="multipart/form-data">
+      <h1>Edit Product</h1>
 
-<div class="container">
-<label for="uname"><b>Product Name</b></label>
-<input  v-model="form.product_name" type="text" placeholder="Product Name" name="uname" required>
+      <div class="container">
+        <label for="uname"><b>Product Name</b></label>
+        <input
+          v-model="form.product_name"
+          type="text"
+          placeholder="Product Name"
+          name="uname"
+          required
+        />
 
-<label for="uname"><b>Product Price</b></label>
-<input v-model="form.product_price" type="number" placeholder="Product Price" name="uname" required>
+        <label for="uname"><b>Product Price</b></label>
+        <input
+          v-model="form.product_price"
+          type="number"
+          placeholder="Product Price"
+          name="uname"
+          required
+        />
 
-<label for="uname"><b>Product Quantity</b></label>
-<input  v-model="form.product_quantity" type="number" placeholder="Product Quantity" name="uname" required>
+        <label for="uname"><b>Product Quantity</b></label>
+        <input
+          v-model="form.product_quantity"
+          type="number"
+          placeholder="Product Quantity"
+          name="uname"
+          required
+        />
 
-<div>
-<label for="uname"><b>Catagory Name</b></label>
-    <select v-model="form.category_id" >
-        <option disabled >Select category</option>
-        <option v-for="item in category" :key="item.id" :value="item.id">
-            {{ item.category_name }}
-        </option>
-    </select>
-</div>
+        <div>
+          <label for="uname"><b>Catagory Name</b></label>
+          <select v-model="form.category_id">
+            <option disabled>Select category</option>
+            <option v-for="item in category" :key="item.id" :value="item.id">
+              {{ item.category_name }}
+            </option>
+          </select>
+        </div>
 
-<div>
-    <label for="uname"><b>Brand Name</b></label>
-    <select v-model="form.brand_id"   >
-        <option disabled>Select brand</option>
-        <option v-for="item in brand" :key="item.id" :value="item.id">
-            {{ item.brand_name }}
-        </option>
-    </select>
-</div>
-<div class="input_wrapper">
-            <label for="uname"><b>Product Sizes</b></label>
-            <div v-for="size in product_sizes" :key="size">
-              <input type="checkbox" :name="size" :value="size" v-model="selectedSizes" /> {{ size }}
-            </div>
- </div>
-<div class="input_wrapper">
-    <label for="uname"><b>Product Colors</b></label>
-    <div v-for="color in product_colors" :key="color">
-    <input type="checkbox" :name="color" :value="color" v-model="selectedColors" /> {{ color }}
-    </div>
-</div>
+        <div>
+          <label for="uname"><b>Brand Name</b></label>
+          <select v-model="form.brand_id">
+            <option disabled>Select brand</option>
+            <option v-for="item in brand" :key="item.id" :value="item.id">
+              {{ item.brand_name }}
+            </option>
+          </select>
+        </div>
+        <div class="input_wrapper">
+          <label for="uname"><b>Product Sizes</b></label>
+          <div v-for="size in product_sizes" :key="size">
+            <input
+              type="checkbox"
+              :name="size"
+              :value="size"
+              v-model="selectedSizes"
+            />
+            {{ size }}
+          </div>
+        </div>
+        <div class="input_wrapper">
+          <label for="uname"><b>Product Colors</b></label>
+          <div v-for="color in product_colors" :key="color">
+            <input
+              type="checkbox"
+              :name="color"
+              :value="color"
+              v-model="selectedColors"
+            />
+            {{ color }}
+          </div>
+        </div>
 
-<label for="psw"><b>Product Image</b></label>
-<input  @change="handleFileChange"  type="file" placeholder="Product Image" name="psw" required>
+        <label for="psw"><b>Product Image</b></label>
+        <input
+          @change="handleFileChange"
+          type="file"
+          placeholder="Product Image"
+          name="psw"
+          required
+        />
 
-<label for="uname"><b>Product Short Description</b></label>
-<textarea v-model="form.short_description" type="text" placeholder="" >
+        <label for="uname"><b>Product Short Description</b></label>
+        <textarea v-model="form.short_description" type="text" placeholder="">
                 bccnjn hbdnund
-</textarea>
+</textarea
+        >
 
-<label for="uname"><b>Product Details</b></label>
-<textarea v-model="form.product_details" type="text" placeholder="" >
+        <label for="uname"><b>Product Details</b></label>
+        <textarea v-model="form.product_details" type="text" placeholder="">
                 bccnjn hbdnund
-</textarea><br><br>
-<button type="submit">Upedat Product</button>
-
-</div>
-
-</form> 
-</div>
+</textarea
+        ><br /><br />
+        <button type="submit">Upedat Product</button>
+      </div>
+    </form>
+  </div>
 </template>
 
-
 <style lang="scss" scoped>
+h1 {
+  text-align: center;
+  font-size: 25px;
+  color: #444;
+}
 form {
   border: 1px solid #f1f1f1;
-  margin-left: 28%;
+  margin: 0 auto;
   width: 55%;
   margin-top: 100px;
   border-radius: 8px;
@@ -161,20 +202,22 @@ form {
 }
 
 .form-footer {
-    background-color: rgb(241, 241, 241);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 8px;
-    padding: 4px 16px;
-    margin: 0px 12px;
+  background-color: rgb(241, 241, 241);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  padding: 4px 16px;
+  margin: 0px 12px;
 }
 
-input[type=text],
-input[type=password],
-input[type=file],
-input[type=number],
-select,textarea ,.input_wrapper{
+input[type="text"],
+input[type="password"],
+input[type="file"],
+input[type="number"],
+select,
+textarea,
+.input_wrapper {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -185,7 +228,7 @@ select,textarea ,.input_wrapper{
 }
 
 button {
-  background-color: #04AA6D;
+  background-color: #04aa6d;
   color: white;
   padding: 14px 20px;
   margin: 8px 0;
