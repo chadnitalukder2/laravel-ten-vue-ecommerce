@@ -117,13 +117,13 @@ const updateStatus = async (item) => {
                     <td>{{ item.order_status }}</td>
                     <td>{{ item.payment_status }}</td>
                     <td>
-                        <span @click="openModalDelete(item.id)">
+                        <span @click="openModalDelete(item.id)" class="delete">
                             <i class="fa-solid fa-trash"></i>
                         </span>
-                        <span>
+                        <span class="view">
                             <router-link :to="{ name: 'view_order_details', params: { id: item.id } }"><i class="fa-solid fa-eye"></i></router-link>
                         </span>
-                        <span @click="openModal(item.id)">
+                        <span @click="openModal(item.id)" class="edit">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </span>
                     </td>
@@ -135,7 +135,7 @@ const updateStatus = async (item) => {
                             <div class="container">
                                 <div>
                                     <label><b>Order Status</b></label>
-                                    <select v-model="item.order_status ">
+                                    <select v-model="item.order_status">
                                         <option disabled>orders Status </option>
                                         <option>Pending</option>
                                         <option>Processing</option>
@@ -154,7 +154,7 @@ const updateStatus = async (item) => {
                                     </select>
                                 </div>
                                 <br />
-                                <button type="submit">Add Product</button>
+                                <button type="submit" style="cursor: pointer;">Update Status</button>
                             </div>
                         </form>
                     </Modal>
@@ -224,7 +224,7 @@ select {
 
 
 td {
-    span {
+    span{
         cursor: pointer;
         color: #444;
         padding-right: 8px;
@@ -232,6 +232,27 @@ td {
         a {
             text-decoration: none;
             color: #444;
+        }
+    }
+    .delete{
+        i{
+           &:hover{
+            color: red;
+           }
+        }
+    }
+    .view{
+        a{
+           &:hover{
+            color: rgb(53, 53, 239);
+           }
+        }
+    }
+    .edit{
+        i{
+           &:hover{
+            color: #13c3c3;
+           }
         }
     }
 }

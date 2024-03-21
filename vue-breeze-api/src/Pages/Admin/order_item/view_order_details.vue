@@ -26,7 +26,16 @@ const getOrderItemByOrderId = async () => {
 <template>
   <div class="container">
     <div class="table-box">
-      <h1> <i class="fa-solid fa-arrow-left"></i>Order Details</h1>
+      <div style="display: flex; gap: 10px;align-items: baseline;">
+        <span>
+          <router-link :to="{ name: 'all-order' }">
+            <i style="color:#444 ;" class="fa-solid fa-arrow-left"></i>
+          </router-link>
+          
+        </span>
+        <h1>Order Details</h1>
+      </div>
+      
       <table id="customers">
         <tr>
           <th># ID</th>
