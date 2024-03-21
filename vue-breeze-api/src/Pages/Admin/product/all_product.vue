@@ -1,15 +1,17 @@
 <script setup>
 import { useNotification } from "@kyvg/vue3-notification";
 const { notify } = useNotification();
+import Modal from "../../../components/global/Modal.vue";
 
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 const router = useRouter();
-
+//-----------------------------------------------
 const form = ref([]);
 const products = ref([]);
-
+const deleteVisibleId = ref(null);
+//----------------------------------
 onMounted(async () => {
   getProduct();
 });
@@ -29,6 +31,14 @@ const deleteProduct = (id) => {
     getProduct();
   });
 };
+//---------------------------------------------------
+const openModalDelete = (id) => {
+    deleteVisibleId.value = id;
+};
+const closeModalDelete = () => {
+    deleteVisibleId.value =null;
+};
+//--------------------------------------------
 </script>
 
 <template>
@@ -52,6 +62,18 @@ const deleteProduct = (id) => {
           <th>Action</th>
         </tr>
         <tbody v-for="item in products" :key="item.id">
+          <Modal :show="deleteVisibleId === item.id" @close="closeModalDelete">
+                    <div id="myModal" style="text-align: center;">
+                        <h4 style="margin-top: 20px; font-size: 26px; color: #636363; font-weight: 500;">Are you sure?</h4>
+                        <div class="modal-body">
+                            <p style="font-size: 14px; color: #999999;">Do you really want to delete these records? This process cannot be undone.</p>
+                        </div>
+                        <div class="modal_footer" style="padding: 20px;" >
+                            <!-- <button @close="closeModalDelete" type="button" class="secondary" >Cancel</button> -->
+                            <button @click="deleteProduct(item.id)"  type="button" style="background: #f15e5e;">Delete</button>
+                        </div>   
+                    </div>  
+           </Modal>
           <tr>
             <td style="color: blue">
               <router-link
@@ -69,7 +91,7 @@ const deleteProduct = (id) => {
             </td>
 
             <td
-              @click="deleteProduct(item.id)"
+            @click="openModalDelete(item.id)"
               style="color: red; cursor: pointer"
             >
               <span>Delete</span>
@@ -82,6 +104,27 @@ const deleteProduct = (id) => {
 </template>
 
 <style lang="scss" scoped>
+#myModal{
+.modal_footer{
+  button{
+  
+  cursor: pointer;
+  background: #c1c1c1;
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.4s;
+  line-height: normal;
+  min-width: 120px;
+  border: none;
+  min-height: 40px;
+  border-radius: 3px;
+  margin: 0 5px;
+  }
+ 
+}
+ 
+}
 h1 {
   margin-top: 0px;
   font-size: 24px;
