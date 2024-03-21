@@ -107,7 +107,7 @@ const updateStatus = async (item) => {
                     </div>  
                 </Modal>
                 <tr>
-                    <td style="color: blue"># {{ item.id }}</td>
+                    <td style=""># {{ item.id }}</td>
                     <td>{{ item.user_id }}</td>
                     <td>{{ item.name }}</td>
                     <td>{{ item.email }}</td>
