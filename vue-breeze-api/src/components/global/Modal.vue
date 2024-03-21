@@ -3,7 +3,7 @@
     <div v-if="show" class="modal">
       <div :style="{ width: width}" class="modal-content">
         <slot></slot>
-        <button @click="closeModal">Close</button>
+        <button @click="closeModal">X</button>
       </div>
     </div>
   </template>
@@ -29,13 +29,16 @@
   </script>
   <style scoped>
   button{
-    padding: 10px 33px;
-    font-size: 15px;
+    padding: 9px 12px;
+    font-size: 19px;
+    font-size: 16px;
     border-radius: 6px;
     border: 1px solid #f1f1f1;
-    background: rgb(231, 77, 77);
-    margin-left: 20%;
-    margin-top:20px ;
+    background: #F5F6F7;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
   }
   .modal {
     position: fixed;
@@ -54,5 +57,6 @@
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
   }
   </style>

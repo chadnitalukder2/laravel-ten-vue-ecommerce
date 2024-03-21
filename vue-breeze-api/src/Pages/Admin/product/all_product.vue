@@ -83,9 +83,7 @@ const deleteProduct = (id) => {
 
 <style lang="scss" scoped>
 h1 {
-  background: rgb(237 236 236 / 68%);
-  border-radius: 6px;
-  padding: 10px 20px;
+  margin-top: 0px;
   font-size: 24px;
   color: #444;
 }

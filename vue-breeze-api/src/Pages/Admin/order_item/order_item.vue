@@ -1,255 +1,297 @@
 <script setup>
-import { useNotification } from "@kyvg/vue3-notification";
-const { notify } = useNotification();
+import '@fortawesome/fontawesome-free/css/all.css';
+import {
+    useNotification
+} from "@kyvg/vue3-notification";
+const {
+    notify
+} = useNotification();
 import Modal from "../../../components/global/Modal.vue";
 
-import { useRouter } from "vue-router";
+import {
+    useRouter
+} from "vue-router";
 const router = useRouter();
-import { ref, onMounted } from "vue";
+import {
+    ref,
+    onMounted
+} from "vue";
 import axios from "axios";
-import { useRoute } from "vue-router";
+import {
+    useRoute
+} from "vue-router";
 const route = useRoute();
 //---------------------------------------------------
 const orderItems = ref([]);
 const modalVisibleId = ref(null);
-const orderStatus = ref([]);
+const deleteVisibleId = ref(null);
 //---------------------------------------------------
 onMounted(async () => {
-  getOrderItems();
+    getOrderItems();
 });
 //---------------------------------------------------
 const getOrderItems = async () => {
-  let response = await axios.get("/api/get_all_Order");
-  orderItems.value = response.data.orderItems;
-  // console.log("response", response.data);
+    let response = await axios.get("/api/get_all_Order");
+    orderItems.value = response.data.orderItems;
+    // console.log("response", response.data);
 };
 //---------------------------------------------------
 const deleteOrder = (id) => {
-  axios.get(`/api/delete_order_item/${id}`).then(() => {
-    notify({
-      title: "Order Item Deleted",
-      type: "success",
+    axios.get(`/api/delete_order_item/${id}`).then(() => {
+        notify({
+            title: "Order Item Deleted",
+            type: "success",
+        });
+        getOrderItems();
     });
-    getOrderItems();
-  });
 };
 
 //---------------------------------------------------
 const openModal = (id) => {
-  modalVisibleId.value = id;
+    modalVisibleId.value = id;
+};
+const closeModal = () => {
+    modalVisibleId.value = null;
+};
+const openModalDelete = (id) => {
+    deleteVisibleId.value = id;
+};
+const closeModalDelete = () => {
+    deleteVisibleId.value =null;
 };
 
-const closeModal = () => {
-  modalVisibleId.value = null;
-};
+
 //---------------------------------------------------
-const updateStatus = async (id) => {
-  
-  console.log('id', id);
-  let data={
-    'order_status': orderStatus.value.order_status,
-    'payment_status': orderStatus.value.payment_status,
-  }
-  await axios.post(`/api/update_order_status/${id}`, data).then(() => {
-      
-      closeModal();
-      router.push("/all-order");
+const updateStatus = async (item) => {
+
+    let data = {
+        'order_status': item.order_status,
+        'payment_status': item.payment_status,
+    }
+
+    await axios.post(`/api/update_order_status/${item.id}`, data).then(() => {
+        closeModal();
     });
 }
 //---------------------------------
 </script>
 
 <template>
-  <div class="container">
+<div class="container">
     <div class="table-box">
-      <h1>Order Items</h1>
-      <table id="customers">
-        <tr>
-          <th># ID</th>
-          <th>User Id</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Address</th>
-          <th>Phone</th>
-          <th>Total Amount</th>
-          <th>Order Status</th>
-          <th>Payment Status</th>
-          <th>Action</th>
-        </tr>
-        <tbody v-for="item in orderItems" :key="item.id">
-          <tr>
-            <td style="color: blue"># {{ item.id }}</td>
-            <td>{{ item.user_id }}</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.email }}</td>
-            <td>{{ item.address }}</td>
-            <td>{{ item.phone }}</td>
-            <td>{{ item.total_amount }}</td>
-            <td>{{ item.order_status }}</td>
-            <td>{{ item.payment_status }}</td>
-            <td>
-              <button @click="deleteOrder(item.id)" style="color: red">
-                Delete
-              </button>
-              <button style="color: #22bdbd; margin-left: 10px">
-                <router-link
-                  style="color: #22bdbd"
-                  :to="{ name: 'view_order_details', params: { id: item.id } }"
-                  >View</router-link
-                >
-              </button>
-              <button
-                @click="openModal(item.id)"
-                style="color: #414195; margin-top: 7px"
-              >
-                Edit
-              </button>
-            </td>
+        <h1>Order Items</h1>
+        <table id="customers">
+            <tr>
+                <th># ID</th>
+                <th>User Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Total Amount</th>
+                <th>Order Status</th>
+                <th>Payment Status</th>
+                <th>Action</th>
+            </tr>
+            <tbody v-for="item in orderItems" :key="item.id">
+                <Modal :show="deleteVisibleId === item.id" @close="closeModalDelete">
+                    <div id="myModal" style="text-align: center;">
+                        <h4 style="margin-top: 20px; font-size: 26px; color: #636363; font-weight: 500;">Are you sure?</h4>
+                        <div class="modal-body">
+                            <p style="font-size: 14px; color: #999999;">Do you really want to delete these records? This process cannot be undone.</p>
+                        </div>
+                        <div class="modal_footer" style="padding: 20px;" >
+                            <!-- <button @close="closeModalDelete" type="button" class="secondary" >Cancel</button> -->
+                            <button @click="deleteOrder(item.id)" type="button" style="background: #f15e5e;">Delete</button>
+                        </div>   
+                    </div>  
+                </Modal>
+                <tr>
+                    <td style="color: blue"># {{ item.id }}</td>
+                    <td>{{ item.user_id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ item.address }}</td>
+                    <td>{{ item.phone }}</td>
+                    <td>{{ item.total_amount }}</td>
+                    <td>{{ item.order_status }}</td>
+                    <td>{{ item.payment_status }}</td>
+                    <td>
+                        <span @click="openModalDelete(item.id)">
+                            <i class="fa-solid fa-trash"></i>
+                        </span>
+                        <span>
+                            <router-link :to="{ name: 'view_order_details', params: { id: item.id } }"><i class="fa-solid fa-eye"></i></router-link>
+                        </span>
+                        <span @click="openModal(item.id)">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </span>
+                    </td>
 
-            <Modal :show="modalVisibleId === item.id" @close="closeModal">
-              <h2 style="text-align: center; font-size: 22px; color: #444;">Upadte  Status</h2>
-              <form @submit.prevent="updateStatus(item.id)">
-             
-                <div class="container">
-                  <div>
-                    {{ item.id }}
-                    <label ><b>Order Status</b></label>
-                    <select v-model="orderStatus.order_status ">
-                      <option disabled>orders tatus </option>
-                      <option >Panding</option> 
-                      <option >Processing</option>
-                      <option >Received</option>
-                      <option >Delevary</option>
-                    </select>
-                  </div>
+                    <Modal :show="modalVisibleId === item.id" @close="closeModal">
+                        <h2 style="text-align: center; font-size: 22px; color: #444;">Upadte Status</h2>
+                        <form @submit.prevent="updateStatus(item)">
 
-                  <div>
-                    <label ><b>Payment Status</b></label>
-                    <select v-model="orderStatus.payment_status">
-                      <option disabled>payment status </option>
-                      <option >Unpaid</option>
-                      <option >Paid</option>
-                      <option >Refund</option>
-                    </select>
-                  </div>
-                  <br />
-                  <button type="submit">Add Product</button>
-                </div>
-              </form>
-            </Modal>
-          </tr>
-        </tbody>
-      </table>
+                            <div class="container">
+                                <div>
+                                    <label><b>Order Status</b></label>
+                                    <select v-model="item.order_status ">
+                                        <option disabled>orders Status </option>
+                                        <option>Pending</option>
+                                        <option>Processing</option>
+                                        <option>Received</option>
+                                        <option>Delivery</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label><b>Payment Status</b></label>
+                                    <select v-model="item.payment_status">
+                                        <option disabled>payment status </option>
+                                        <option>Unpaid</option>
+                                        <option>Paid</option>
+                                        <option>Refund</option>
+                                    </select>
+                                </div>
+                                <br />
+                                <button type="submit">Add Product</button>
+                            </div>
+                        </form>
+                    </Modal>
+                </tr>
+            </tbody>
+        </table>
     </div>
-  </div>
+</div>
 </template>
 
 <style lang="scss" scoped>
-
 h1 {
-  text-align: left;
-  font-size: 25px;
-  color: #444;
+   margin-top:0px ;
+    font-size: 25px;
+    color: #444;
 }
-form {
-  border: 1px solid #f1f1f1;
-  margin: 0 auto;
-  width: 60%;
-  margin-top: 15px;
-  border-radius: 8px;
-  padding: 20px;
+#myModal{
+.modal_footer{
   button{
-    padding: 10px 15px;
-    font-size: 14px;
-    border-radius: 6px;
-    border: 1px solid #f1f1f1;
-    background: #189877;
-    color: white;
+  
+  cursor: pointer;
+  background: #c1c1c1;
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.4s;
+  line-height: normal;
+  min-width: 120px;
+  border: none;
+  min-height: 40px;
+  border-radius: 3px;
+  margin: 0 5px;
   }
+ 
+}
+ 
+}
+
+form {
+    border: 1px solid #f1f1f1;
+    margin: 0 auto;
+    width: 60%;
+    margin-top: 15px;
+    border-radius: 8px;
+    padding: 20px;
+
+    button {
+        padding: 10px 15px;
+        font-size: 14px;
+        border-radius: 6px;
+        border: 1px solid #f1f1f1;
+        background: #189877;
+        color: white;
+    }
 }
 
 select {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 12px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-  border-radius: 8px;
+    width: 100%;
+    padding: 12px 20px;
+    margin: 12px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 8px;
 }
 
-h1 {
-  background: rgb(237 236 236 / 68%);
-  border-radius: 6px;
-  padding: 10px 20px;
-  font-size: 24px;
-  color: #444;
-}
+
 
 td {
-  button {
-    cursor: pointer;
-    border: 1px solid #ddd;
-    background: transparent;
-    a {
-      text-decoration: none;
+    span {
+        cursor: pointer;
+        color: #444;
+        padding-right: 8px;
+
+        a {
+            text-decoration: none;
+            color: #444;
+        }
     }
-  }
 }
 
 .container {
-  width: 100%;
+    width: 100%;
 }
+
 table {
-  border-radius: 6px;
-  overflow: hidden;
+    border-radius: 6px;
+    overflow: hidden;
 }
 
 .table-box {
-  padding: 50px;
-  border-radius: 8px;
+    padding: 50px;
+    border-radius: 8px;
 
-  .btn {
-    text-align: right;
-    padding-bottom: 25px;
-    button {
-      padding: 10px 20px;
-      border: 1px solid #ddd;
-      background: #189877;
-      border-radius: 6px;
-      cursor: pointer;
-      a {
-        text-decoration: none;
-        font-size: 16px;
-        font-weight: 500;
-        color: #fff;
-      }
+    .btn {
+        text-align: right;
+        padding-bottom: 25px;
+
+        button {
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            background: #189877;
+            border-radius: 6px;
+            cursor: pointer;
+
+            a {
+                text-decoration: none;
+                font-size: 16px;
+                font-weight: 500;
+                color: #fff;
+            }
+        }
     }
-  }
 }
 
 #customers {
-  font-family: Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
 }
 
 #customers td,
 #customers th {
-  border: 1px solid #f3ededad;
-  padding: 15px 15px;
-  text-align: left;
+    border: 1px solid #f3ededad;
+    padding: 15px 15px;
+    text-align: left;
 }
 
 #customers tr:nth-child(even) {
-  background-color: #f2f2f2;
+    background-color: #f2f2f2;
 }
 
 #customers th {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  text-align: left;
-  background-color: rgb(237 236 236 / 68%);
-  color: #444;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: left;
+    background-color: rgb(237 236 236 / 68%);
+    color: #444;
 }
 </style>

@@ -1,4 +1,6 @@
 <script setup>
+import '@fortawesome/fontawesome-free/css/all.css';
+
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
@@ -24,7 +26,7 @@ const getOrderItemByOrderId = async () => {
 <template>
   <div class="container">
     <div class="table-box">
-      <h1>Order Details</h1>
+      <h1> <i class="fa-solid fa-arrow-left"></i>Order Details</h1>
       <table id="customers">
         <tr>
           <th># ID</th>
@@ -58,9 +60,7 @@ const getOrderItemByOrderId = async () => {
 
 <style lang="scss" scoped>
 h1 {
-  background: rgb(237 236 236 / 68%);
-  border-radius: 6px;
-  padding: 10px 20px;
+  margin-top: 0px;
   font-size: 24px;
   color: #444;
 }
