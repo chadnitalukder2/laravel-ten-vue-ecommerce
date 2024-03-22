@@ -56,16 +56,9 @@ const getBrand = async () => {
  <div class="container" >
     <Hero />
     <div>
-        <h4 class="product-title"> CATEGORY </h4>
+        <h4 class="product-title">CATEGORY </h4>
         <div class="product-wrapper">
             <Category_card v-for="category in category.slice(0, 7)" :key="category.id" :category="category"/>
-        </div>
-    </div>
-
-    <div>
-        <h4 class="product-title"> BRAND </h4>
-        <div class="product-wrapper">
-            <Brand_card v-for="brand in brand.slice(0, 7) " :key="brand.id" :brand="brand"/>
         </div>
     </div>
 
@@ -78,6 +71,12 @@ const getBrand = async () => {
         </div>
     </div>
     
+    <div>
+        <h4 class="product-title"> BRAND </h4>
+        <div class="product-wrapper">
+            <Brand_card v-for="brand in brand.slice(0, 7) " :key="brand.id" :brand="brand"/>
+        </div>
+    </div>
 
   
 
