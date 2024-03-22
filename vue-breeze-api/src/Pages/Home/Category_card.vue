@@ -3,13 +3,13 @@
               <div class="card_categories">
         
                <div class="card-categories-image">
+                <a href="#">
                   <img class="image" :src=" props.category.category_img" alt="Blouses Shirts">
+                </a> 
                </div>
               <div class="card_title">
-                <h4>{{ props.category.category_name }}</h4>
-                <span >
-                  <a href="#">  READ MORE </a>
-                </span>
+                <h4> <a href="#">{{ props.category.category_name }}</a></h4>
+                <p>75 Products</p>
               </div>
           
           </div>
@@ -28,15 +28,36 @@ const props = defineProps(["category"]);
 
 <style lang="scss" scoped>
 .card_categories{
-  width: 140px;
+  width: 220px;
   border-radius: 6px;
-  padding: 12px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+  transition: all .3s;
+  transform: translateZ(0);
+  &:hover{
+    transform: translateY(-10px);
+    
+  }
 }
 .card_title{
   text-align: center;
   h4{
-    color: #212121;
+    margin: 0px;
+    padding: 24px 0px 1px 0px;
+    a{
+      text-decoration: none;
+      color: #0d2235;
+      font-weight: 700;
+      font-size: 14px;
+      font-family:Poppins, sans-serif;
+      &:hover{
+        color: #009688;
+      }
+    }
+  }
+  p{
+   color: #505157;
+   font-family:Poppins, sans-serif;
+   font-size: 12px;
+   padding-bottom:20px ;
   }
 }
 .card-categories {
@@ -52,13 +73,23 @@ a{
 }
 .card-categories-image {
     margin: 0 auto;
-    width: 80px;
-    height: 80px;
+    width: 100%;
+    height: 200px;
+    border-radius: 6px;
+    overflow: hidden;
+    &:hover{
+      box-shadow: 3px 3px 12px #0000001a;
+    }
 }
 .card-categories-image .image {
     width: 100%;
     height: 100%;
-    border-radius: 50%;
+    transition: all .5s;
+    &:hover{
+      background: transparent;
+    transform: scale(1);
+    opacity: 1;
+    }
 }
 .card-categories-name {
     text-align: center;

@@ -74,7 +74,7 @@ const getBrand = async () => {
     <div>
         <h4 class="product-title"> BRAND </h4>
         <div class="product-wrapper">
-            <Brand_card v-for="brand in brand.slice(0, 7) " :key="brand.id" :brand="brand"/>
+            <Brand_card v-for="brand in brand.slice(0, 5) " :key="brand.id" :brand="brand"/>
         </div>
     </div>
 
@@ -103,8 +103,8 @@ const getBrand = async () => {
 .product-wrapper {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
-    padding: 40px;
+    gap: 30px;
+    padding: 50px;
     justify-content: center;
 }
 
