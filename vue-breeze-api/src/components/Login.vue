@@ -4,18 +4,38 @@ import axios from "axios";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-
+//---------------------------------
 const form = ref({
   email: "",
   password: "",
 });
 
+const validation = ref({});
+//---------------------------------------
 const getToken = async () => {
   await axios.get("sanctum/csrf-cookie");
 }
-
+//-------------------------------------------------
+const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+//----------------------------------------------
 const handleLogin = async () => {
-  await getToken();
+
+  if (form.value.email === "" || !validateEmail(form.value.email)) {
+    validation.value.email = "Email is required and must be a valid email address";
+  }
+  if (form.value.password === "" || form.value.password.length < 6) {
+    validation.value.password = "Password is required and must be at least 6 characters long";
+  } else {
+    await getToken();
+    await handleApiRequest();
+  }
+ 
+};
+//---------------------------------------------
+const handleApiRequest = async () => {
   let response = await axios.post("/login", {
     email: form.value.email,
     password: form.value.password,
@@ -33,78 +53,19 @@ const handleLogin = async () => {
 };
 </script>
 
+
 <template>
-  <!-- <section class="bg-[#F4F7FF] py-20 lg:py-[120px]">
-    <div class="container mx-auto">
-      <div class="-mx-4 flex flex-wrap">
-        <div class="w-full px-4" style="    padding-left: 15rem;">
-          <div
-            class="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white py-16 px-10 text-center sm:px-12 md:px-[60px]"
-          >
-            <div class="mb-10 text-center md:mb-16">Login Page</div>
-            <form @submit.prevent="handleLogin">
-             
-              <div class="mb-6">
-                <input
-                  type="email"
-                  v-model="form.email"
-                  placeholder="Email"
-                  class="border-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-3 px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"
-                />
-                <div class="flex">
-                  <span class="text-red-400 text-sm m-2 p-2"></span>
-                </div>
-              </div>
-              <div class="mb-6">
-                <input
-                  type="password"
-                  v-model="form.password"
-                  placeholder="Password"
-                  class="border-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-3 px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"
-                />
-                <div class="flex">
-                  <span class="text-red-400 text-sm m-2 p-2"></span>
-                </div>
-              </div>
-              <div class="mb-10">
-                <button
-                  type="submit"
-                  class="w-full px-4 py-3 bg-indigo-500 hover:bg-indigo-700 rounded-md text-white"
-                >
-                  Login
-                </button>
-              </div>
-            </form>
-            <router-link
-              to="/forgot-password"
-              class="mb-2 inline-block text-base text-[#adadad] hover:text-primary hover:underline"
-            >
-              Forgot Password?
-            </router-link>
-            <p class="text-base text-[#adadad]">
-              Not a member yet?
-              <router-link to="/register" class="text-primary hover:underline">
-                Sign Up
-              </router-link>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section> -->
-
-
+ 
   <form @submit.prevent="handleLogin" method="post" style="width: 50%;">
-    <!-- <div class="imgcontainer">
-    <img src="img_avatar2.png" alt="Avatar" class="avatar">
-  </div> -->
-
+  
     <div class="container">
       <label for="uname"><b>User Email</b></label>
-      <input  v-model="form.email"  type="text" placeholder="Enter User Email" name="uname" required>
+      <input  v-model="form.email"  type="text" placeholder="Enter User Email" name="uname" >
+      <p style="margin: 0px; color: red; font-size: 14px;">{{ validation.email }}</p><br>
 
       <label for="psw"><b>Password</b></label>
-      <input v-model="form.password" type="password" placeholder="Enter Password" name="psw" required>
+      <input v-model="form.password" type="password" placeholder="Enter Password" name="psw" >
+      <p style="margin: 0px; color: red; font-size: 14px;" >{{ validation.password }}</p><br>
 
       <button type="submit">Login</button>
 
@@ -113,7 +74,7 @@ const handleLogin = async () => {
     <div class="form-footer" style="background-color:#f1f1f1">
       <router-link to="/forgot-password" class="">Forgot Password?</router-link>
       <p class="text-base text-[#adadad]"> Not a member yet?
-          <router-link to="/register" class=""> Sign Up </router-link>
+          <router-link to="/register" class=""> register </router-link>
       </p>
     </div>
   </form>

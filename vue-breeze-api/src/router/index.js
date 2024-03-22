@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import axios from "axios";
 
 import Home from "../Pages/Home/Home.vue";
 import Store from "../Pages/Store/StoreIndex.vue";
@@ -117,19 +118,20 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  // Check if the route requires authentication
-  if (to.meta.requiresAuth) {
-    // const currentUser = getCurrentUser(); // Implement a function to get the current user
-    console.log(localStorage.getItem('email'));
 
-    if (localStorage.getItem('email')) {
-      // User is authenticated, allow access
-      next();
-    } else {
-      // User is not authenticated, redirect to login page
-      next('/login');
+router.beforeEach(async (to, from, next) => {
+  if (to.meta.requiresAuth) {
+    await axios.get('/api/user').then(response => {
+      if (response.status == 200) {
+        next();
+      } else {
+        next('/login');
+      }
     }
+    ).catch(error => {
+      next('/login');
+    });
+
   } else {
     // No authentication required, proceed to the route
     next();

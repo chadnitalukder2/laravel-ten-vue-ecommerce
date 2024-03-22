@@ -21,7 +21,6 @@ onMounted(async () => {
 const getCategory = async () => {
   let response = await axios.get("/api/get_category");
   category.value = response.data.category;
-  // console.log("response", category.value);
 };
 //---------------------------------------------------
 const deleteCategory = (id) => {

@@ -19,7 +19,6 @@ onMounted(async () => {
 const getProduct = async () => {
   let response = await axios.get("/api/get_product");
   products.value = response.data.products;
-  console.log("response", products.value);
 };
 
 const deleteProduct = (id) => {

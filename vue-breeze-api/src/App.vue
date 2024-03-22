@@ -13,7 +13,15 @@ onMounted(async () => {
 });
 
 const getUser = async () => {
- user.value = localStorage.getItem('email') ;
+  await axios.get("/api/user").then((ress) => {
+    if (ress.status === 200) {
+      next();
+    } else {
+      router.push('/login');
+    }
+  }).catch(error => {
+    console.error('Error fetching user data hsgdyg:', error);
+  });
 }
 
 </script>

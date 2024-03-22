@@ -2,125 +2,86 @@
   import { ref } from 'vue';
   import axios from 'axios';
   import { useRouter } from 'vue-router';
-
   const router = useRouter();
+  //-----------------------------------
   const form = ref({
     name: '',
     email: '',
     password: '',
     password_confirmation: ''
-  })
+  });
+  const validation = ref({});
+  //---------------------------------------------
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+  //---------------------------------------
   const handleRegister = async () => {
+if(form.value.name === ''){
+  validation.value.name = "Name is required";
+}
+if (form.value.email === "" || !validateEmail(form.value.email)) {
+  validation.value.email = "Email is required and must be a valid email address";
+}
+if (form.value.password === "" || form.value.password.length < 6) {
+  validation.value.password = "Password is required and must be at least 6 characters long";
+} 
+if(form.value.password_confirmation === ""){
+      validation.value.password_confirmation = "Password confirmation is required";
+    }
+    if (form.value.password_confirmation !== form.value.password) {
+      validation.value.password_confirmation = "The password confirmation does not match.";
+    } 
+else {
+  await handleApiRequest();
+}
+
+};
+  //------------------------------------------
+  const handleApiRequest = async () => {
     await axios.post('/register', {
       name:form.value.name,
       email:form.value.email,
       password:form.value.password,
       password_confirmation:form.value.password_confirmation
     });
-    router.push("/");
+    router.push("/login");
   }
+  //-----------------------------------------
 </script>
 
 <template>
  
-  <!-- <section class="bg-[#F4F7FF] py-20 lg:py-[50px]">
-    <div class="container mx-auto">
-      <div class="-mx-4 flex flex-wrap">
-        <div class="w-full px-4" style="    padding-left: 15rem;">
-          <div
-            class="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white py-16 px-10 text-center sm:px-12 md:px-[60px]"
-          style="    margin-top: 60px;"
-            >
-            <div class="mb-10 text-center md:mb-16">Register Page</div>
-            <form @submit.prevent="handleRegister">
-              <div class="mb-6">
-                <input
-                  type="text"
-                  placeholder="Name"
-                  v-model="form.name"
-                  class="bordder-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-3 px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"
-                />
-                <div class="flex">
-                  <span class="text-red-400 text-sm m-2 p-2"></span>
-                </div>
-              </div>
-              <div class="mb-6">
-                <input
-                  type="email"
-                  v-model="form.email"
-                  placeholder="Email"
-                  class="bordder-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-3 px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"
-                />
-                <div class="flex">
-                  <span class="text-red-400 text-sm m-2 p-2"></span>
-                </div>
-              </div>
-              <div class="mb-6">
-                <input
-                  type="password"
-                  v-model="form.password"
-                  placeholder="Password"
-                  class="bordder-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-3 px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"
-                />
-                <div class="flex">
-                  <span class="text-red-400 text-sm m-2 p-2"></span>
-                </div>
-              </div>
-              <div class="mb-6">
-                <input
-                  type="password"
-                  v-model="form.password_confirmation"
-                  placeholder="Password Confirmation"
-                  class="bordder-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-3 px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-primary focus-visible:shadow-none"
-                />
-              </div>
-              <div class="mb-10">
-                <button
-                  type="submit"
-                  class="w-full px-4 py-3 bg-indigo-500 hover:bg-indigo-700 rounded-md text-white"
-                >
-                  Register
-                </button>
-              </div>
-            </form>
-            <p class="text-base text-[#adadad]">
-              <router-link to="/login" class="text-primary hover:underline">
-                Sign In
-              </router-link>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section> -->
 <div>
   
   <form @submit.prevent="handleRegister" method="post">
-    <!-- <div class="imgcontainer">
-    <img src="img_avatar2.png" alt="Avatar" class="avatar">
-  </div> -->
-
+   
     <div class="container">
 
       <label for="uname"><b>Username</b></label>
-      <input  v-model="form.name"  type="text" placeholder="Enter Username" name="uname" required>
+      <input  v-model="form.name"  type="text" placeholder="Enter Username" name="uname" >
+      <p style="margin: 0px; color: red; font-size: 14px;" >{{ validation.name }}</p><br>
 
       <label for="uname"><b>Email</b></label>
-      <input  v-model="form.email"  type="text" placeholder="Enter Email" name="uname" required>
+      <input  v-model="form.email"  type="text" placeholder="Enter Email" name="uname" >
+      <p style="margin: 0px; color: red; font-size: 14px;">{{ validation.email }}</p><br>
 
       <label for="uname"><b>Password</b></label>
-      <input  v-model="form.password"  type="password" placeholder="Enter Password" name="uname" required>
+      <input  v-model="form.password"  type="password" placeholder="Enter Password" name="uname" >
+      <p style="margin: 0px; color: red; font-size: 14px;">{{ validation.password }}</p><br>
 
 
       <label for="psw"><b> Password Confirmation</b></label>
-      <input v-model="form.password_confirmation" type="password" placeholder="Enter Password Confirmation" name="psw" required>
+      <input v-model="form.password_confirmation" type="password" placeholder="Enter Password Confirmation" name="psw" >
+      <p style="margin: 0px; color: red; font-size: 14px;">{{ validation.password_confirmation }}</p><br>
 
       <button type="submit">Register</button>
 
     </div>
     <p class="sign">
       <router-link to="/login">
-        Sign In
+        Login
       </router-link>
     </p>
   </form>
@@ -136,7 +97,8 @@ form {
   border: 1px solid #f1f1f1;
   margin: 0 auto;
   /* height: 100vh; */
-  margin-top: 100px;
+  margin-top: 50px;
+  margin-bottom: 50px;
   border-radius: 8px;
   padding: 20px;
   width: 50%;
