@@ -13,15 +13,17 @@ onMounted(async () => {
 });
 
 const getUser = async () => {
-  await axios.get("/api/user").then((ress) => {
-    if (ress.status === 200) {
-      next();
+  try {
+    const res = await axios.get("/api/user");
+    if (res.status === 200) {
+      user.value = res.data; // Assuming user data is stored in res.data
     } else {
       router.push('/login');
     }
-  }).catch(error => {
-    console.error('Error fetching user data hsgdyg:', error);
-  });
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    router.push('/login'); // Redirect to login page if an error occurs
+  }
 }
 
 </script>

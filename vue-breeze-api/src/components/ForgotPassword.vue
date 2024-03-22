@@ -31,7 +31,12 @@ const handleApiRequest = async () => {
   try {
     await axios.post("/forgot-password", {
       email: email.value,
-    });
+    }).then((res) => {
+        if(res.status == 200){
+          email.value = '';
+        }
+    })
+  
   } catch (error) {
     // Handle error if necessary
     console.error(error);

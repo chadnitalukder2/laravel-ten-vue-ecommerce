@@ -4,7 +4,7 @@ import axios from "axios";
 import { useRouter } from "vue-router";
 const router = useRouter();
 
-let showError = ref(false);
+let showError = ref();
 const brandInput = ref([]);
 const image = [];
 
@@ -12,18 +12,18 @@ const image = [];
 const handleFileChange = async (event) => {
   image.value = event.target.files[0];
 };
+//-------------------------------------------------
+
 //---------------------------------------------------
 const addBrand = async () => {
-  showError.value = false;
   if (!brandInput.value.brand_name) {
     showError.value = true;
-    // console.log("hi");
+    showError.value = 'Brand name is required';
+    console.log("hi");
     return;
   }
 
-  // let data = {
-  //     brand_name : brandInput.value.brand_name,
-  // }
+  
   const formData = new FormData();
   formData.append("brand_name", brandInput.value.brand_name);
   formData.append("brand_img", image.value);
@@ -48,8 +48,8 @@ const addBrand = async () => {
           type="text"
           placeholder="Enter User Email"
           name="uname"
-          required
         />
+        <p style="margin: 0px; color: red; font-size: 14px;" >{{ showError }}</p><br>
 
         <label for="psw"><b>Brand Image</b></label>
         <input
@@ -57,8 +57,9 @@ const addBrand = async () => {
           type="file"
           placeholder="Product Image"
           name="psw"
-          required
+          
         />
+        
 
         <button type="submit">Add Brand</button>
       </div>

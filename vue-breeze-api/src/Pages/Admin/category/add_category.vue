@@ -4,7 +4,7 @@ import axios from "axios";
 import { useRouter } from "vue-router";
 const router = useRouter();
 
-let showError = ref(false);
+let showError = ref();
 const categoryInput = ref([]);
 const image = [];
 
@@ -14,10 +14,11 @@ const handleFileChange = async (event) => {
 
 //---------------------------------------------------
 const addCategory = async () => {
-  showError.value = false;
-  if (!categoryInput.value.category_name) {
-    showError.value = true;
-    // console.log("hi");
+
+  if (!categoryInput.value.category_name ) {
+
+    showError.value = 'Category name is required';
+    console.log("hi");
     return;
   }
 
@@ -49,8 +50,8 @@ const addCategory = async () => {
           type="text"
           placeholder="category name "
           name="uname"
-          required
         />
+        <p style="margin: 0px; color: red; font-size: 14px;" >{{ showError }}</p><br>
 
         <label for="psw"><b>Category Image</b></label>
         <input
@@ -58,7 +59,7 @@ const addCategory = async () => {
           type="file"
           placeholder="category Image"
           name="psw"
-          required
+          
         />
 
         <button type="submit">Add Category</button>
