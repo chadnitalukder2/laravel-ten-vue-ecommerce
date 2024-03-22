@@ -131,25 +131,25 @@ const addOrderItem = async () => {
                                 </span>
                             </p>
                             <p class="text_middle ">
-                                <a href="#" style="color: #000; text-decoration: none;">{{ product?.reviews?.length}} <span
-                                        style="color: #bbb">Rating</span></a>
+                                <a href="#" style=" font-size: 12px; color: #a8a8a8; text-decoration: none; font-weight: 600;">{{ product?.reviews?.length}} <span
+                                        style="color: #bbb">RATING</span></a>
                             </p>
                             <p class="text_right">
-                                <a href="#" style="color: #000;text-decoration: none;">500 <span
+                                <a href="#" style="color: #000;text-decoration: none; font-weight: 700;">500 <span
                                         style="color: #bbb">Sold</span></a>
                             </p>
                         </div>
                         <p   class="price" ><span>${{ product.product_price }}</span></p>
-                        <p style="color:#bbb ; font-size: 18px; line-height: 22px;">
+                        <p style="color:#505157 ; font-size: 18px; line-height: 22px;">
                             {{ product.short_description }}
                         </p>
-                        <p style="color:#bbb ;    font-size: 18px; line-height: 22px;">
+                        <p style="color:#505157 ;    font-size: 18px; line-height: 22px;">
                             {{ product.product_details }}
                         </p>
                         <form @submit.prevent="addOrderItem">
                         <div class=" mt-4">
                             <div class="select-size">
-                                <label>Sizes : </label>
+                                <label  style="color: rgb(8 13 16); font-weight: 800; font-size: 16px;" >Sizes : </label>
                                 <select v-model="orderItem.size" class="product-control">
                                     <option v-for="product_size in product.product_sizes" :key="product_size.id">
                                         {{product_size }}
@@ -157,7 +157,7 @@ const addOrderItem = async () => {
                                 </select>
                             </div>
                             <div class="select-size">
-                                <label>Colors : </label>
+                                <label style="color: rgb(8 13 16); font-weight: 800; font-size: 16px;">Colors : </label>
                                 <select v-model="orderItem.color"  class="product-control">
                                     <option v-for="product_color in product.product_colors" :key="product_color.id">
                                         {{ product_color }}
@@ -282,15 +282,15 @@ input[type=submit]:hover {
 }
 
 .container {
-    padding: 80px;
+    padding: 60px;
 }
 
 .row {
     display: flex;
-    gap: 50px;
+    gap: 80px;
 
     .product_img {
-        flex-basis: 50%;
+        flex-basis: 60%;
 
         img {
             width: 100%;
@@ -299,9 +299,10 @@ input[type=submit]:hover {
     }
 
     h3 {
-        font-size: 30px;
-        font-weight: 400;
+        font-size: 2.3rem;
+        font-weight: 700;
         margin: 0px;
+        text-transform: capitalize;
     }
 
     .product_details {
@@ -311,13 +312,17 @@ input[type=submit]:hover {
 
         .rating {
             display: flex;
-            gap: 20px ;
+            gap: 12px ;
+            text-align: center;
+            align-items: center;
             .text_left {
                 a {
-                    color: #dbcc8f;
+                    color: #eeab00;
                     text-decoration: none;
                     padding-right: 10px;
-                    font-size: 18px;
+                    font-size: 20px;
+                    padding-top: 2px;
+                    font-weight: 700;
                 }
                 span{
                     label{
@@ -325,7 +330,7 @@ input[type=submit]:hover {
                         color:  gray;
                     }
                     .active{
-                        color: #f1c40f;
+                        color: #eeab00;
                     }
                 }
                 
@@ -335,10 +340,13 @@ input[type=submit]:hover {
         }
 
         .price {
-            font-size: 30px;
+            font-size: 25px;
             color: #000000;
             margin: 0px;
-            padding: 20px 0px;
+            padding: 10px 0px;
+            font-weight: 800;
+            color: #232630;
+            font-family: Poppins, sans-serif;
         }
     }
 
@@ -446,16 +454,17 @@ input[type=submit]:hover {
     h3 {
         font-size: 1.75rem;
         line-height: 1.5;
-        font-weight: 400;
+        font-weight: 600;
         color: #000000;
         margin-bottom: 1.5rem;
+        font-family: Poppins, sans-serif;
     }
 
     p {
-        font-size: 15px;
+        font-size: 18px;
         line-height: 1.8;
         font-weight: 400;
-        color: gray;
+        color: rgb(80, 81, 87);
     }
 }
 
@@ -532,8 +541,10 @@ input[type=submit]:hover {
                     }
                     .adrm-star-rating {
                         span {
-                            color: gray;
                             font-size: 18px;
+                            color: gray;
+                            padding-right: 2px;
+                            font-weight: 700;
                         }
                         .active {
                             color: #f1c40f;
