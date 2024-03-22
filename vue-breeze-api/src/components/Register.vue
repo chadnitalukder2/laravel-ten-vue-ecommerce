@@ -1,4 +1,7 @@
 <script setup>
+import { useNotification } from "@kyvg/vue3-notification";
+const { notify } = useNotification();
+
   import { ref } from 'vue';
   import axios from 'axios';
   import { useRouter } from 'vue-router';
@@ -12,6 +15,12 @@
   });
   const validation = ref({});
   //---------------------------------------------
+  const clearValidationMessage = (field) => {
+  setTimeout(() => {
+    validation.value[field] = '';
+  }, 5000); // Set the timeout duration in milliseconds (e.g., 5000 for 5 seconds)
+}
+  //---------------------------------------------------
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -20,18 +29,23 @@
   const handleRegister = async () => {
 if(form.value.name === ''){
   validation.value.name = "Name is required";
+  clearValidationMessage('name');
 }
 if (form.value.email === "" || !validateEmail(form.value.email)) {
   validation.value.email = "Email is required and must be a valid email address";
+  clearValidationMessage('email');
 }
 if (form.value.password === "" || form.value.password.length < 6) {
   validation.value.password = "Password is required and must be at least 6 characters long";
+  clearValidationMessage('password');
 } 
 if(form.value.password_confirmation === ""){
       validation.value.password_confirmation = "Password confirmation is required";
+      clearValidationMessage('password_confirmation');
     }
     if (form.value.password_confirmation !== form.value.password) {
       validation.value.password_confirmation = "The password confirmation does not match.";
+      clearValidationMessage('password_confirmation')
     } 
 else {
   await handleApiRequest();
@@ -45,7 +59,12 @@ else {
       email:form.value.email,
       password:form.value.password,
       password_confirmation:form.value.password_confirmation
+    }).then(() => {
+      notify({
+      title: "Ragistation Successful ",
+      type: "success",
     });
+    })
     router.push("/login");
   }
   //-----------------------------------------
