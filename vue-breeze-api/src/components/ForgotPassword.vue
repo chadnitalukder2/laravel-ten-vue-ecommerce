@@ -1,32 +1,57 @@
 <script setup>
 import axios from 'axios';
+import { ref } from "vue";
 
-import {ref } from "vue";
 const email = ref("");
-const handleForgotPassword = async (email) => {
-     await axios.post("/forgot-password", {
-          email: email,
-        });
-  } 
+const validation = ref({
+  email : ''
+});
 
+const clearValidationMessage = (field) => {
+  setTimeout(() => {
+    validation.value[field] = '';
+  }, 5000);
+}
+
+const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+const handleForgotPassword = async () => {
+  if (email.value === "" || !validateEmail(email.value)) {
+    validation.value.email = "Email is required and must be a valid email address";
+    clearValidationMessage('email');
+  } else {
+    await handleApiRequest();
+  }
+};
+
+const handleApiRequest = async () => {
+  try {
+    await axios.post("/forgot-password", {
+      email: email.value,
+    });
+  } catch (error) {
+    // Handle error if necessary
+    console.error(error);
+  }
+}
 </script>
+
 <template>
- 
-    <form @submit.prevent="handleForgotPassword" method="post" style="width: 50%;">
-    
-      <div class="container">
-      
-        <label for="psw"><b>Enter Your Email</b></label>
-        <input v-model="email" type="email" placeholder="Enter Password" name="psw" >
-        <!-- <p style="margin: 0px; color: red; font-size: 14px;" >{{ validation.password }}</p><br> -->
-  
-        <button type="submit"> Submit</button>
-  
-      </div>
-    </form>
-  
-  </template>
-  
+  <form @submit.prevent="handleForgotPassword" method="post" style="width: 50%;">
+    <div class="container">
+      <label for="email"><b>Enter Your Email</b></label>
+      <input v-model="email" type="email" placeholder="Enter email">
+      <p style="margin: 0px; color: red; font-size: 14px;">{{ validation.email }}</p><br>
+      <button type="submit">Submit</button>
+    </div>
+  </form>
+</template>
+
+
+
   <style lang="scss" scoped>
   form {
     border: 1px solid #f1f1f1;

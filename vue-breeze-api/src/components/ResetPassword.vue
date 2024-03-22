@@ -1,111 +1,131 @@
 <script setup>
-import { useAuthStore } from "../stores/auth";
+import { useRouter } from "vue-router";
+const router = useRouter();
+
 import { ref } from "vue";
 import { useRoute } from "vue-router";
+import axios from "axios"; // Add this import for axios
 
 const route = useRoute();
-const authStore = useAuthStore();
 
 const form = ref({
-  password: "",
-  password_confirmation: "",
-  email: route.query.email,
-  token: route.params.token,
+    password: "",
+    password_confirmation: "",
+    email: route.query.email,
+    token: route.params.token,
 });
+
+const handleResetPassword = async (form) => {
+    try {
+        const response = await axios.post("/reset-password", form).then(() =>{
+            router.push('/login')
+        })
+        // Handle response if necessary
+    } catch (error) {
+        // Handle error if necessary
+        console.error(error);
+    }
+}
 </script>
 <template>
-  <form
-    class="max-w-md mx-auto bg-slate-100 p-4 rounded-lg mt-12"
-    @submit.prevent="authStore.handleResetPassword(form)"
-  >
-    <div
-      class="m-2 p-2 text-green-900 font-semibold bg-green-300 rounded-md"
-      v-if="authStore.status"
-    >
-      {{ authStore.status }}
-    </div>
-    <div class="mb-6">
-      <label
-        for="password"
-        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-        >New password</label
-      >
-      <input
-        type="password"
-        id="password"
-        v-model="form.password"
-        class="
-          shadow-sm
-          bg-gray-50
-          border border-gray-300
-          text-gray-900 text-sm
-          rounded-lg
-          focus:ring-blue-500 focus:border-blue-500
-          block
-          w-full
-          p-2.5
-          dark:bg-gray-700
-          dark:border-gray-600
-          dark:placeholder-gray-400
-          dark:text-white
-          dark:focus:ring-blue-500
-          dark:focus:border-blue-500
-          dark:shadow-sm-light
-        "
-      />
-      <div v-if="authStore.errors.password" class="flex">
-        <span class="text-red-400 text-sm m-2 p-2">{{
-          authStore.errors.password[0]
-        }}</span>
+ 
+    <form @submit.prevent="handleResetPassword(form)" method="post" style="width: 50%;">
+    
+      <div class="container">
+        <label for="psw"><b>New Password </b></label>
+        <input v-model="form.password" type="password" placeholder=" New password"  >
+      
+        <label for="psw"><b>Confirm Password  </b></label>
+        <input v-model="form.password_confirmation" type="password" placeholder="Password confirmation "  >
+        <!-- <p style="margin: 0px; color: red; font-size: 14px;" >{{ validation.password }}</p><br> -->
+  
+        <button type="submit"> Submit</button>
+  
       </div>
-    </div>
-    <div class="mb-6">
-      <label
-        for="repeat-password"
-        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-        >Confirm Password</label
-      >
-      <input
-        type="password"
-        id="repeat-password"
-        v-model="form.password_confirmation"
-        class="
-          shadow-sm
-          bg-gray-50
-          border border-gray-300
-          text-gray-900 text-sm
-          rounded-lg
-          focus:ring-blue-500 focus:border-blue-500
-          block
-          w-full
-          p-2.5
-          dark:bg-gray-700
-          dark:border-gray-600
-          dark:placeholder-gray-400
-          dark:text-white
-          dark:focus:ring-blue-500
-          dark:focus:border-blue-500
-          dark:shadow-sm-light
-        "
-      />
-    </div>
-    <button
-      type="submit"
-      class="
-        text-white
-        bg-blue-700
-        hover:bg-blue-800
-        focus:ring-4 focus:outline-none focus:ring-blue-300
-        font-medium
-        rounded-lg
-        text-sm
-        px-5
-        py-2.5
-        text-center
-        dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800
-      "
-    >
-      Reset Password
-    </button>
-  </form>
-</template>
+    </form>
+  
+  </template>
+  
+  <style lang="scss" scoped>
+  form {
+    border: 1px solid #f1f1f1;
+    margin: 0 auto;
+    /* height: 100vh; */
+    margin-top: 100px;
+    border-radius: 8px;
+    padding: 20px;
+  }
+  
+  .form-footer {
+      background-color: rgb(241, 241, 241);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: 8px;
+      padding: 4px 16px;
+      margin: 0px 12px;
+  }
+  
+  input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 8px;
+  }
+  
+  button {
+    background-color: #04AA6D;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 8px;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
+  
+  .cancelbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: #f44336;
+  }
+  
+  .imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+  }
+  
+  img.avatar {
+    width: 40%;
+    border-radius: 50%;
+  }
+  
+  .container {
+    padding: 16px;
+  }
+  
+  span.psw {
+    float: right;
+    padding-top: 16px;
+  }
+  
+  /* Change styles for span and cancel button on extra small screens */
+  @media screen and (max-width: 300px) {
+    span.psw {
+      display: block;
+      float: none;
+    }
+  
+    .cancelbtn {
+      width: 100%;
+    }
+  }
+  </style>
+  
