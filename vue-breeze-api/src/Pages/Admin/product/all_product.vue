@@ -85,8 +85,8 @@ const closeModalDelete = () => {
             <td>{{ item.product_quantity }}</td>
             <td>{{ item.category.category_name }}</td>
             <td>{{ item.brand.brand_name }}</td>
-            <td>
-              <img :src="item.product_img" style="width: 110px; height: 80px" />
+            <td style="width: 120px; height: 100px">
+              <img :src="item.product_img" style="width: 100%; height: 100%" />
             </td>
 
             <td

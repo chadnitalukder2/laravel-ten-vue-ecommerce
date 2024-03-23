@@ -227,7 +227,6 @@ td {
     span{
         cursor: pointer;
         color: #444;
-        padding-right: 8px;
 
         a {
             text-decoration: none;
@@ -235,6 +234,7 @@ td {
         }
     }
     .delete{
+        padding-right: 8px;
         i{
            &:hover{
             color: red;
@@ -242,6 +242,7 @@ td {
         }
     }
     .view{
+        padding-right: 8px;
         a{
            &:hover{
             color: rgb(53, 53, 239);
@@ -300,7 +301,7 @@ table {
 #customers td,
 #customers th {
     border: 1px solid #f3ededad;
-    padding: 15px 15px;
+    padding: 15px 10px;
     text-align: left;
 }
 

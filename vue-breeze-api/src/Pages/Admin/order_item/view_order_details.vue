@@ -49,10 +49,10 @@ const getOrderItemByOrderId = async () => {
         <tbody v-for="item in orderItems" :key="item.id">
           <tr>
             <td style="color: blue"># {{ item.id }}</td>
-            <td>
+            <td style="width: 120px; height: 100px">
               <img
                 :src="item.product.product_img"
-                style="width: 130px; height: 80px"
+                style="width: 100%; height: 100%"
               />
             </td>
             <td>{{ item.product.product_name }}</td>

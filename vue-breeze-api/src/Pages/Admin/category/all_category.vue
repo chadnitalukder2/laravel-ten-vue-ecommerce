@@ -80,10 +80,10 @@ const closeModalDelete = () => {
            </Modal>
           <tr>
             <td># {{ item.id }}</td>
-            <td>
+            <td style="width: 120px; height: 100px">
               <img
                 :src="item.category_img"
-                style="width: 130px; height: 80px"
+                style="width: 100%; height: 100%"
               />
             </td>
             <td>{{ item.category_name }}</td>

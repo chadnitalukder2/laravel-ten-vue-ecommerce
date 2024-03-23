@@ -119,8 +119,8 @@ const addOrders = async () => {
           <td>
             <input @change="subTotal()" type="checkbox" :name="`order-item-${item.id}`" :id="item.id" v-model="order.selectedItems" :value="item.id">
           </td>
-          <td> 
-            <img :src="item.product.product_img" style="width: 100px; height: 80px" >
+          <td style="width: 120px; height: 100px"> 
+            <img :src="item.product.product_img" style="width: 100%; height: 100%" >
           </td>
           <td>{{ item.product.product_name }}</td>
           <td>{{ item.product.product_price }}</td>

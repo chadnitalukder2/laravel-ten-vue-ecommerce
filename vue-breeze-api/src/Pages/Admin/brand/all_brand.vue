@@ -77,8 +77,8 @@ const closeModalDelete = () => {
           <tr>
             <td># {{ item.id }}</td>
             <td>{{ item.brand_name }}</td>
-            <td>
-              <img :src="item.brand_img" style="width: 130px; height: 80px" />
+            <td style="width: 120px; height: 100px">
+              <img :src="item.brand_img" style="width: 100%; height: 100%" />
             </td>
             <td
                @click="openModalDelete(item.id)"
