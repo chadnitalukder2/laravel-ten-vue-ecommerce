@@ -11,10 +11,9 @@ export default {
       <div class="container banner-column">
          <img class="banner-image" src="https://i.ibb.co/vB5LTFG/Headphone.png" alt="banner">
          <div class="banner-inner">
-            <h1 class="heading-xl">Experience Media Like Never Before</h1>
+            <h1 class="heading-xl">ECOMERCE PROJECT</h1>
             <p class="paragraph">
-               Enjoy award-winning stereo beats with wireless listening freedom and sleek,
-               streamlined with premium padded and delivering first-rate playback.
+               This is a simple e-commerce project built with Laravel and Vue.js. It is a full-stack project that includes authentication, product management, and shopping cart functionality. The project is built with Laravel Breeze and Vue 3.
             </p>
             <button class="btn btn-darken btn-inline">
                Our Products<i class="bx bx-right-arrow-alt"></i>
@@ -45,7 +44,7 @@ button {
 }
 
 .section {
-    background:#D1EAE4;
+    background:#0b1412b8;;
 }
 
 img,
@@ -75,41 +74,11 @@ video {
 
 .heading {
    &-xl {
-      font-family: inherit;
-      font-size: clamp(2.648rem, 6vw, 4.241rem);
-      font-weight: 700;
-      line-height: 1.15;
-      letter-spacing: -1px;
-   }
-
-   &-lg {
-      font-family: inherit;
-      font-size: clamp(2.179rem, 5vw, 3.176rem);
-      font-weight: 700;
-      line-height: 1.15;
-      letter-spacing: -1px;
-   }
-
-   &-md {
-      font-family: inherit;
-      font-size: clamp(1.794rem, 4vw, 2.379rem);
-      font-weight: 700;
-      line-height: 1.25;
-      letter-spacing: -1px;
-   }
-
-   &-sm {
-      font-family: inherit;
-      font-size: clamp(1.476rem, 3vw, 1.782rem);
-      font-weight: 600;
-      line-height: 1.5;
-   }
-
-   &-xs {
-      font-family: inherit;
-      font-size: clamp(1.215rem, 2vw, 1.335rem);
-      font-weight: 500;
-      line-height: 1.5;
+    line-height: 1.0;
+    letter-spacing: -1px;
+    color: #fff;
+    font-size: 62px;
+    margin: 0;
    }
 }
 
@@ -117,7 +86,7 @@ video {
    font-family: inherit;
    font-size: clamp(1rem, 2vw, 1.125rem);
    text-wrap: balance;
-   color: var(--color-white-200);
+   color: #fff
 }
 
 .btn {
@@ -145,16 +114,9 @@ video {
 
    &-darken {
       padding: 0.75rem 2rem;
-      color: var(--color-white-100);
-      background-color: var(--color-black-200);
-      box-shadow: var(--shadow-medium);
-   }
-
-   &-neutral {
       padding: 0.75rem 2rem;
-      color: var(--color-black-500);
-      background-color: var(--color-white-100);
-      box-shadow: var(--shadow-medium);
+      color: #fff;
+      background-color: #117964;
    }
 }
 
@@ -194,9 +156,8 @@ video {
       }
 
       @media only screen and (min-width: 64rem) {
-         max-width: 25rem;
+         max-width: 28rem;
          height: auto;
-         margin-right: 5rem;
       }
    }
 

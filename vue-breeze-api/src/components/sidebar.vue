@@ -1,11 +1,11 @@
 <template>
     <div class="side-bar-wrapper">
      
-        <router-link class="active" :to="{ name: 'all-category' }">All Category</router-link>
-        <router-link :to="{ name: 'all-brand' }">All Brand</router-link>
-        <router-link :to="{ name: 'all-product' }">All Product</router-link>
-        <router-link :to="{ name: 'all-order' }">All Order Item</router-link>
-        <router-link :to="{ name: 'all-user' }">All User</router-link>
+        <router-link active-class="active" :to="{ name: 'all-category' }">All Category</router-link>
+        <router-link active-class="active"  :to="{ name: 'all-brand' }">All Brand</router-link>
+        <router-link active-class="active"  :to="{ name: 'all-product' }">All Product</router-link>
+        <router-link active-class="active"  :to="{ name: 'all-order' }">All Order Item</router-link>
+        <router-link  active-class="active"  :to="{ name: 'all-user' }">All User</router-link>
     </div>
 </template>
 
@@ -28,8 +28,9 @@
     gap: 10px;
     border-right: 1px solid #EAECF0;
     height: 100vh;
-    background: #D1EAE4;
-    padding: 60px 0px;
+    background: #f0f8fc;
+    padding: 14px;
+    padding-top: 30px;
     a {
         text-decoration: none;
         font-weight: 500;
@@ -40,6 +41,7 @@
         &.active {
             background: #189877;
             color: #fff;
+            border-radius: 8px;
         }
     }
 }

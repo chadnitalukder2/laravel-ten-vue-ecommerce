@@ -9,21 +9,24 @@
             </div>
 
             <ul class="menu-items">
-                
-               
-                <li><router-link :to="{ name: 'Home' }">Home</router-link></li>
-                <li><router-link :to="{ name: 'Store' }">Store</router-link></li>
-                <li><router-link :to="{ name: 'add-cart' }"><i class="fa-solid fa-cart-plus"></i></router-link></li>
-                <li v-if="!state.loggedIn"><router-link :to="{ name: 'Login' }">Login</router-link></li>
-                <li v-if="!state.loggedIn"><router-link :to="{ name: 'Register' }">Register</router-link></li>
-                <li v-if="state.loggedIn">
 
+                <li><router-link :to="{ name: 'Home' }" active-class="active">Home</router-link></li>
+                <li><router-link :to="{ name: 'Store' }" active-class="active">Store</router-link></li>
+                <li v-if="!state.loggedIn"><router-link active-class="active" :to="{ name: 'Login' }">Login</router-link></li>
+                <li v-if="!state.loggedIn"><router-link active-class="active" :to="{ name: 'Register' }">Register</router-link></li>
+                <li v-if="state.loggedIn">
                     <button @click="handleLogout">
                         Logout
                     </button>
                 </li>
+                <li><router-link v-if="state.is_admin" active-class="active" :to="{ name: 'dashboard' }">Admin</router-link></li>
+                <li><router-link active-class="active" :to="{ name: 'add-cart' }"><i class="fa-solid fa-cart-plus"></i></router-link></li>
             </ul>
-            <h1 class="logo">Navbar</h1>
+            <div class="logo">
+                <router-link :to="{ name: 'Home' }">
+                    <img style="max-height: 52px;" src="https://similux-vinovatheme.myshopify.com/cdn/shop/files/Logo-retina.png?v=1667462956&width=300" alt="logo" />
+                </router-link>
+            </div>
         </div>
     </nav>
 
@@ -42,7 +45,8 @@ import {
 } from "vue";
 
 const state = reactive({
-    loggedIn: false
+    loggedIn: false,
+    is_admin: false
 });
 
 const handleLogout = async () => {
@@ -55,9 +59,20 @@ const handleLogout = async () => {
 };
 
 const getUser = async () => {
-    if(localStorage.getItem('email')) {
+    await axios.get('/api/user').then(response => {
+      if (response.status == 200) {
         state.loggedIn = true;
+        if (response.data.role == 'admin') {
+          state.is_admin = true;
+          router.push({ name: 'dashboard' });
+        }
+      } else {
+        state.loggedIn = false;
+      }
     }
+    ).catch(error => {
+        state.loggedIn = false;
+    });
 }
 
 onMounted(async () => {
@@ -75,15 +90,19 @@ onMounted(async () => {
 
     box-shadow: 0px 2px 7px 0px #EAECF0;
     /* border-bottom: 1px solid #aaaaaaa1; */
-    background: #D1EAE4;
+    background: #fff;
     color: #000;
 
     a {
-        color: #444;
         text-decoration: none;
-        font-weight: 500;
-        transition: color 0.3s ease-in-out;
-
+        font-size: 1.1rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        transition: all .3s ease;
+        color: #232630;
+        &.active {
+            color: #117964;
+        }
         &:hover {
             color: #117964;
         }
@@ -107,12 +126,11 @@ onMounted(async () => {
     }
 
     .menu-items {
-        background: #D1EAE4;
+        // background: #fff;
 
         li {
             list-style: none;
             margin-left: 1.5rem;
-            font-size: 1.3rem;
         }
 
         button {

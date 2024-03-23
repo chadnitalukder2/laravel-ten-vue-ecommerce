@@ -28,13 +28,21 @@ const props = defineProps(["category"]);
 
 <style lang="scss" scoped>
 .card_categories{
-  width: 220px;
+  width: 225px;
   border-radius: 6px;
   transition: all .3s;
   transform: translateZ(0);
   &:hover{
     transform: translateY(-10px);
-    
+    .card-categories-image{
+      box-shadow: 3px 3px 12px #0000001a;
+      
+    }
+    .card-categories-image .image {
+      background: transparent;
+      transform: scale(1.07);
+      opacity: 1;
+    }
   }
 }
 .card_title{
@@ -42,6 +50,7 @@ const props = defineProps(["category"]);
   h4{
     margin: 0px;
     padding: 24px 0px 1px 0px;
+    text-transform: capitalize;
     a{
       text-decoration: none;
       color: #0d2235;
@@ -74,22 +83,16 @@ a{
 .card-categories-image {
     margin: 0 auto;
     width: 100%;
-    height: 200px;
+    height: 230px;
     border-radius: 6px;
     overflow: hidden;
-    &:hover{
-      box-shadow: 3px 3px 12px #0000001a;
-    }
+
 }
 .card-categories-image .image {
     width: 100%;
     height: 100%;
     transition: all .5s;
-    &:hover{
-      background: transparent;
-    transform: scale(1);
-    opacity: 1;
-    }
+  
 }
 .card-categories-name {
     text-align: center;
