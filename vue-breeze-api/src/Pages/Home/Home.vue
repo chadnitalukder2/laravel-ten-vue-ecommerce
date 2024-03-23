@@ -55,10 +55,10 @@ const getBrand = async () => {
  <!-- #fdebcb -->
  <div class="container" >
     <Hero />
-    <div>
+    <div style="  background: #f0f8fc;  padding-top: 15px;">
         <h4 class="product-title">CATEGORY </h4>
         <div class="product-wrapper">
-            <Category_card v-for="category in category.slice(0, 7)" :key="category.id" :category="category"/>
+            <Category_card v-for="category in category.slice(0, 5)" :key="category.id" :category="category"/>
         </div>
     </div>
 
