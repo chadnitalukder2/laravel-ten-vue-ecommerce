@@ -4,6 +4,7 @@ import {
 } from "vue";
 
 const props = defineProps(["product"]);
+import rating from '../product_details/rating.vue';
 
 </script>
 
@@ -19,13 +20,12 @@ const props = defineProps(["product"]);
         <div class="product-details">
             <span class="product-catagory">{{ props.product.brand.brand_name  }}, {{ props.product.category.category_name }}</span>
             <h4><router-link :to="{ name: 'product-details', params: { id: props.product.id }}" >{{ props.product.product_name }} </router-link></h4>
-            <p><router-link :to="{ name: 'product-details', params: { id: props.product.id }}" style="text-decoration: none;">{{ props.product.short_description }}</router-link> </p>
+            <p><router-link :to="{ name: 'product-details', params: { id: props.product.id }}" style="text-decoration: none;">{{ props.product.short_description }}{!! Str::limit($item->blog_description, 200) !!} </router-link> </p>
             <div class="product-bottom-details">
+                <!-- <p>
+                    <rating :rating="props.product?.average_rating"></rating>
+                </p> -->
                 <div class="product-price"> ${{ props.product.product_price }}</div>
-                <div class="product-links">
-                    <a href=""><i class="fa fa-heart"></i></a>
-                    <a href=""><i class="fa fa-shopping-cart"></i></a>
-                </div>
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@ const props = defineProps(["product"]);
 
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 a {
@@ -53,8 +53,6 @@ a {
 .product-card {
     width: calc(25% - 25px);
     position: relative;
-    box-shadow: 0 2px 7px #dfdfdf;
-    background: #fafafa;
     border-radius: 8px;
 }
 
@@ -72,10 +70,11 @@ a {
 
 .product-tumb {
     display: flex;
-    align-items: center;
     justify-content: center;
     height: 320px;
     width: 100%;
+    overflow: hidden;
+    border-radius: 5px;
     background: #f0f0f0;
 }
 
@@ -85,7 +84,8 @@ a {
 }
 
 .product-details {
-    padding: 30px;
+    padding: 30px 0px;
+
 }
 
 .product-catagory {
@@ -98,13 +98,14 @@ a {
 }
 
 .product-details h4 a {
-    font-weight: 500;
     display: block;
     margin-bottom: 18px;
-    text-transform: uppercase;
-    color: #363636;
+    font-size: 15px;
+    font-weight: 600;
+    color: #0d2235;
     text-decoration: none;
     transition: 0.3s;
+    font-family: 'Poppins', sans-serif;
 }
 .product-details p a{
     font-weight: 500;
@@ -138,9 +139,10 @@ a {
 }
 
 .product-price {
-    font-size: 18px;
-    color: #009688;
-    font-weight: 600;
+    font-size: 15px;
+    color: #232630;
+    font-weight: 800;
+    font-family: Poppins, sans-serif;
 }
 
 .product-price small {
