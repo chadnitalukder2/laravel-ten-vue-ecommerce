@@ -51,7 +51,7 @@ a {
 }
 
 .product-card {
-    width: calc(25% - 15px);
+    width: calc(25% - 25px);
     position: relative;
     box-shadow: 0 2px 7px #dfdfdf;
     background: #fafafa;
@@ -74,14 +74,14 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 240px;
-    padding: 20px;
+    height: 320px;
+    width: 100%;
     background: #f0f0f0;
 }
 
 .product-tumb img {
-    max-width: 100%;
-    max-height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 .product-details {
