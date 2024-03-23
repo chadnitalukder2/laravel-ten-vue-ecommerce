@@ -2,6 +2,8 @@
 import { useNotification } from "@kyvg/vue3-notification";
 const { notify }  = useNotification();
 
+import Modal from "../../components/global/Modal.vue";
+
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
@@ -16,6 +18,7 @@ const order = ref({
   sub_total: 0,
   total: 0
 })
+const deleteVisibleId = ref(null);
 //---------------------------------------------------
 onMounted(async () => {
     getOrderItem();
@@ -66,6 +69,14 @@ const deleteOrderItem = (id) => {
       getOrderItem();
     })
 }
+//---------------------------------------------------
+const openModalDelete = (id) => {
+    deleteVisibleId.value = id;
+};
+const closeModalDelete = () => {
+    deleteVisibleId.value =null;
+};
+
 //-------------------------------------
 const addOrders = async () => {
   let data = {
@@ -116,6 +127,18 @@ const addOrders = async () => {
         </tr>
                 
         <tr v-for="item in orderItem" :key="item.id">
+          <Modal :show="deleteVisibleId === item.id" @close="closeModalDelete">
+                    <div id="myModal" style="text-align: center;">
+                        <h4 style="margin-top: 20px; font-size: 26px; color: #636363; font-weight: 500;">Are you sure?</h4>
+                        <div class="modal-body">
+                            <p style="font-size: 14px; color: #999999;">Do you really want to delete these records? This process cannot be undone.</p>
+                        </div>
+                        <div class="modal_footer" style="padding: 20px;" >
+                            <!-- <button @close="closeModalDelete" type="button" class="secondary" >Cancel</button> -->
+                            <button @click="deleteOrderItem(item.id)" type="button" style="background: #f15e5e;">Delete</button>
+                        </div>   
+                    </div>  
+           </Modal>
           <td>
             <input @change="subTotal()" type="checkbox" :name="`order-item-${item.id}`" :id="item.id" v-model="order.selectedItems" :value="item.id">
           </td>
@@ -129,7 +152,7 @@ const addOrders = async () => {
                     
           </td>
           <td>${{ item.line_total }}</td>
-          <td @click="deleteOrderItem(item.id)"><i class="fa-solid fa-xmark" style="    background: #D1EAE4; padding: 5px 8px;"></i></td>
+          <td @click="openModalDelete(item.id)"><i class="fa-solid fa-xmark" style="    background: #D1EAE4; padding: 5px 8px;"></i></td>
         </tr>
 
     
@@ -194,6 +217,28 @@ const addOrders = async () => {
 </template>
 
 <style lang="scss" scoped>
+#myModal{
+.modal_footer{
+  button{
+  
+  cursor: pointer;
+  background: #c1c1c1;
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.4s;
+  line-height: normal;
+  min-width: 120px;
+  border: none;
+  min-height: 40px;
+  border-radius: 3px;
+  margin: 0 5px;
+  }
+ 
+}
+ 
+}
+
 .container {
   padding: 80px 100px;
   text-align: center;
