@@ -51,7 +51,7 @@ const addProduct = async () => {
 
   console.log({ formData });
   let response = await axios.post("/api/add_products", formData);
-  router.push("/all-product");
+  router.push("/Admin/all-product");
 };
 </script>
 

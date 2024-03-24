@@ -74,7 +74,7 @@ const getBrand = async () => {
     <div>
         <h4 class="product-title"> BRAND </h4>
         <div class="product-wrapper">
-            <Brand_card v-for="brand in brand.slice(0, 5) " :key="brand.id" :brand="brand"/>
+            <Brand_card v-for="brand in brand.slice(0, 6) " :key="brand.id" :brand="brand"/>
         </div>
     </div>
 

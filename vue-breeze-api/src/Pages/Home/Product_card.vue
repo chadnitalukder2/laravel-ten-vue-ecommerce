@@ -6,6 +6,27 @@ import {
 const props = defineProps(["product"]);
 import rating from '../product_details/rating.vue';
 
+import { ref, onMounted } from "vue";
+import axios from "axios";
+import { useRouter } from "vue-router";
+const router = useRouter();
+import { useRoute } from 'vue-router'
+const route = useRoute()
+
+const product = ref([]);
+
+onMounted(async () => {
+    getProduct();
+});
+
+const getProduct = async () => {
+    const id = props.product.id;
+    // console.log('routhiuhuunje', id);
+    let response = await axios.get(`/api/edit_product/${id}`);
+    product.value = response.data.product
+    console.log('responseydyhfb 55', product.value.Target);
+}
+
 </script>
 
 <template>
