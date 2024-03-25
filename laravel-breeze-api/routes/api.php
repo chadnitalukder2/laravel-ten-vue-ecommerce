@@ -59,3 +59,4 @@ Route::get('/delete_order_item/{id}', [OrderController::class, 'delete_order_ite
 Route::get('/getOrderItemByOrderId/{id}', [OrderController::class, 'getOrderItemByOrderId']);
 Route::post('/update_order_status/{id}', [OrderController::class, 'update_order_status']);
 
+Route::get('/average_rating/{id}', [ProductController::class, 'average_rating']);

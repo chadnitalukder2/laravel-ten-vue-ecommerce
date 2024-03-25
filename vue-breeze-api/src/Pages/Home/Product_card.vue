@@ -13,16 +13,16 @@ const router = useRouter();
 import { useRoute } from 'vue-router'
 const route = useRoute()
 
-const product = ref([]);
+const ratings = ref([]);
 
 onMounted(async () => {
-    getProduct();
+    averageRating();
 });
 
-const getProduct = async () => {
+const averageRating = async () => {
     const id = props.product.id;
     // console.log('routhiuhuunje', id);
-    let response = await axios.get(`/api/edit_product/${id}`);
+    let response = await axios.get(`/api/average_rating/${id}`);
     product.value = response.data.product
     console.log('responseydyhfb 55', product.value.Target);
 }

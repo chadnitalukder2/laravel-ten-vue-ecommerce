@@ -104,5 +104,14 @@ class ProductController extends Controller
       
     }
 
+    public function average_rating($id){
+        $product = Product::with('reviews.user')->find($id);
+        $averageRating = $product->averageRating();
+        $product->average_rating = round($averageRating, 2);
+        return response()->json([
+            'product' => $product,
+            'user_id' => Auth::user()->id,
+        ], 200);
+    }
 
 }
